@@ -20,9 +20,12 @@ var requiredIds = [
   "smallSettingsDialog",
   "themeCreateDialog",
   "guideDialog",
+  "boardDialog",
   "guideCompass",
   "navPrevious",
   "navHome",
+  "articleAiForm",
+  "openArticleSettings",
 ];
 
 scripts.forEach(function (file) {

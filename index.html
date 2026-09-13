@@ -47,7 +47,7 @@
               <span class="level-track"><i id="levelBar"></i></span>
             </span>
             <button class="icon-button" id="openSettings" type="button" aria-label="个性化设置" title="个性化设置">
-              <span class="icon" data-icon="settings"></span>
+              <span class="icon" data-icon="sliders"></span>
             </button>
           </div>
         </div>
@@ -89,10 +89,13 @@
                 <span class="section-kicker" id="collectionKicker">当前主题</span>
                 <h1 id="collectionHeading">收藏文章</h1>
               </div>
-              <button class="region-settings-button" id="openThemeSettings" type="button">
+              <button class="region-icon-button" id="openThemeSettings" type="button" aria-label="主题小设置" title="主题小设置">
                 <span class="icon" data-icon="settings"></span>
-                主题小设置
               </button>
+          <button class="region-settings-button" id="openThemeBoard" type="button">
+            <span class="icon" data-icon="layout"></span>
+            无边记
+          </button>
             </header>
             <section class="section-block collection-block" aria-label="主题文章">
               <div class="section-heading collection-heading">
@@ -122,38 +125,56 @@
           <div class="article-topline">
             <button class="back-button" id="backToWorkspace" type="button">
               <span class="icon" data-icon="arrow-left"></span>
-              返回收藏拆解
+              返回
             </button>
-            <div class="article-top-meta" id="articleTopMeta"></div>
+            <form class="article-ai-bar" id="articleAiForm">
+              <span class="icon" data-icon="message-circle"></span>
+              <input
+                id="articleAiInput"
+                type="text"
+                placeholder="问 AI，或在“AI 抬杠”里输入“我学会了”…"
+                autocomplete="off"
+              />
+              <button type="submit">发送</button>
+            </form>
+            <div class="article-top-actions">
+              <div class="article-top-meta" id="articleTopMeta"></div>
+              <button class="region-icon-button" id="openArticleSettings" type="button" aria-label="文章小设置" title="文章小设置">
+                <span class="icon" data-icon="settings"></span>
+              </button>
+            </div>
           </div>
+          <div class="article-ai-response" id="articleAiResponse" hidden></div>
           <div class="article-layout">
             <aside class="article-sidebar">
               <div id="articleIdentity"></div>
               <nav class="step-nav" id="stepNav" aria-label="文章拆解步骤"></nav>
               <div class="sidebar-note">
                 <span class="icon" data-icon="sparkles"></span>
-                <p>四步不是阅读清单，而是一条从“作者说了什么”到“我能如何使用”的重建路径。</p>
+                <p>步骤不是阅读清单，而是一条从“作者说了什么”到“我能如何使用”的重建路径。</p>
               </div>
             </aside>
-            <article class="analysis-stage" id="analysisStage"></article>
-            <aside class="insight-panel">
-              <div class="insight-head">
-                <span>炼金札记</span>
-                <button class="text-button" id="clearNotes" type="button">清空</button>
-              </div>
-              <div class="notes-list" id="notesList"></div>
-              <form class="note-form" id="noteForm">
-                <textarea
-                  id="noteInput"
-                  rows="3"
-                  placeholder="记录你的疑问、反例或可迁移场景…"
-                ></textarea>
-                <button class="button button-primary button-full" type="submit">
-                  <span class="icon" data-icon="plus"></span>
-                  加入札记
-                </button>
-              </form>
-            </aside>
+            <div class="article-content-column">
+              <article class="analysis-stage" id="analysisStage"></article>
+              <aside class="insight-panel">
+                <div class="insight-head">
+                  <span>炼金札记</span>
+                  <button class="text-button" id="clearNotes" type="button">清空</button>
+                </div>
+                <div class="notes-list" id="notesList"></div>
+                <form class="note-form" id="noteForm">
+                  <textarea
+                    id="noteInput"
+                    rows="3"
+                    placeholder="记录你的疑问、反例或可迁移场景…"
+                  ></textarea>
+                  <button class="button button-primary button-full" type="submit">
+                    <span class="icon" data-icon="plus"></span>
+                    加入札记
+                  </button>
+                </form>
+              </aside>
+            </div>
           </div>
         </section>
 
@@ -188,7 +209,7 @@
               <div class="universe-actions">
                 <span class="universe-counter" id="universeCounter">0 个星系 · 0 颗行星</span>
                 <button class="universe-icon-button" id="openUniverseSettings" type="button" aria-label="炼金宇宙中心设置" title="炼金宇宙中心设置">
-                  <span class="icon" data-icon="settings"></span>
+                  <span class="icon" data-icon="sliders"></span>
                 </button>
                 <button class="universe-icon-button" id="resetUniverseCamera" type="button" aria-label="重置视角" title="重置视角">
                   <span class="icon" data-icon="maximize"></span>
@@ -330,6 +351,52 @@
           <button class="button button-primary" type="submit">创建类别</button>
         </div>
       </form>
+    </dialog>
+
+    <dialog class="board-dialog" id="boardDialog">
+      <div class="board-shell">
+        <header class="board-topbar">
+          <div class="board-title">
+            <span class="icon" data-icon="layout"></span>
+            <strong id="boardTitle">无边记</strong>
+          </div>
+          <div class="board-tools" id="boardTools">
+            <button data-board-tool="select" class="is-active" type="button" title="选择">
+              <span class="icon" data-icon="mouse-pointer"></span>
+            </button>
+            <button data-board-tool="note" type="button" title="便签">
+              <span class="icon" data-icon="sticky-note"></span>
+            </button>
+            <button data-board-tool="text" type="button" title="文本">
+              <span class="icon" data-icon="type"></span>
+            </button>
+            <button data-board-tool="rect" type="button" title="矩形">
+              <span class="icon" data-icon="square"></span>
+            </button>
+            <button data-board-tool="pen" type="button" title="画笔">
+              <span class="icon" data-icon="pencil"></span>
+            </button>
+            <button data-board-tool="erase" type="button" title="橡皮">
+              <span class="icon" data-icon="eraser"></span>
+            </button>
+            <button id="boardUndo" type="button" title="撤销">
+              <span class="icon" data-icon="undo"></span>
+            </button>
+          </div>
+          <div class="board-actions">
+            <button id="boardZoomOut" type="button" title="缩小">−</button>
+            <span id="boardZoomLabel">100%</span>
+            <button id="boardZoomIn" type="button" title="放大">+</button>
+            <button id="boardClose" type="button" title="关闭">
+              <span class="icon" data-icon="x"></span>
+            </button>
+          </div>
+        </header>
+        <div class="board-workspace" id="boardWorkspace">
+          <div class="board-grid"></div>
+          <div class="board-canvas" id="boardCanvas"></div>
+        </div>
+      </div>
     </dialog>
 
     <div class="toast-region" id="toastRegion" aria-live="polite"></div>

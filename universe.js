@@ -31,6 +31,8 @@
   var dragging = false;
   var pointerStates = new Map();
   var touchGesture = null;
+  var galaxyFocusMode = false;
+  var starClickTimes = {};
 
   var cameraState = {
     yaw: 0.72,
@@ -244,7 +246,9 @@
     });
     var core = new THREE.Mesh(new THREE.SphereGeometry(0.58, 28, 20), coreMaterial);
     core.position.set(0, 0.1, 0);
+    core.userData = { themeId: theme.id, kind: "star" };
     disk.add(core);
+    pickMeshes.push(core);
 
     var haloMaterial = new THREE.SpriteMaterial({
       map: createGlowTexture(),
@@ -342,9 +346,7 @@
     var settings = universeSettings();
     var lifecycle = APP.getArticleState(article.id);
     var mastered = lifecycle.status === "lit";
-    var baseColor = new THREE.Color(
-      mastered ? "#e3b45d" : override.color || theme.color,
-    );
+    var baseColor = new THREE.Color(override.color || theme.color);
     var radius = 0.25 + Math.min(0.16, article.votes / 70000);
     var detail = settings.highPerformance ? 12 : 24;
     var geometry = new THREE.SphereGeometry(radius, detail, Math.max(10, detail - 6));
@@ -399,7 +401,7 @@
 
     var planetLabel = makePlanetLabelSprite(
       article.title,
-      mastered ? "#efcb7c" : "#dce8fb",
+      "#e7efff",
     );
     planetLabel.position.set(
       planet.position.x,
@@ -456,7 +458,10 @@
       var entry = planetMap[id];
       var override = galaxyOverride(entry.article.themeId);
       var mode = override.labelMode || settings.labelMode || "automatic";
-      if (mode === "always") {
+      if (
+        mode === "always" ||
+        (galaxyFocusMode && selectedTheme === entry.article.themeId)
+      ) {
         entry.label.visible = true;
         return;
       }
@@ -466,7 +471,7 @@
         (entry.radius * window.innerHeight) /
         Math.max(0.1, 2 * distance * Math.tan((camera.fov * Math.PI) / 360));
       var threshold =
-        mode === "near" ? 11 : mode === "early" ? 5 : 7;
+        mode === "near" ? 13 : mode === "early" ? 7 : 9;
       entry.label.visible = pixelSize >= threshold || selectedPlanet === id;
     });
   }
@@ -576,9 +581,9 @@
         '<button class="breadcrumb-button" type="button">' +
         escapeHtml(theme.name) +
         "</button>" +
-        '<button class="breadcrumb-button" data-universe-action="open-galaxy-settings" type="button">' +
+        '<button class="breadcrumb-button" data-universe-action="open-galaxy-settings" type="button" aria-label="星系小设置" title="星系小设置">' +
         icon("settings") +
-        " 星系小设置</button>";
+        "</button>";
     } else {
       html +=
         '<span style="color:rgba(216,228,249,.48);font-size:10px">选择星系，进入主题内部</span>';
@@ -647,8 +652,13 @@
       (lifecycle.status !== "lit"
         ? '<button class="universe-button" data-universe-action="mastered" data-article-id="' +
           article.id +
-          '" type="button">标记已掌握</button>'
-        : "") +
+          '" type="button">点亮星球</button>' +
+          '<button class="universe-button" data-universe-action="unlearn" data-article-id="' +
+          article.id +
+          '" type="button">改为未学会</button>'
+        : '<button class="universe-button" data-universe-action="unlight" data-article-id="' +
+          article.id +
+          '" type="button">改为未点亮</button>') +
       '<button class="universe-button" data-universe-action="open-zhihu" data-query="' +
       escapeHtml(article.question) +
       '" type="button">打开知乎</button>' +
@@ -835,7 +845,9 @@
     canvas.addEventListener("pointerup", function (event) {
       if (!dragging && pointerStates.size === 1) {
         var mesh = pickPlanet(event);
-        if (mesh && mesh.userData.articleId) {
+        if (mesh && mesh.userData.kind === "star") {
+          handleStarClick(mesh.userData.themeId);
+        } else if (mesh && mesh.userData.articleId) {
           showPlanetCard(mesh.userData.articleId);
         }
       }
@@ -871,6 +883,7 @@
   function resetCamera(instant) {
     selectedTheme = null;
     selectedPlanet = null;
+    galaxyFocusMode = false;
     cameraGoal.yaw = 0.72;
     cameraGoal.pitch = 0.58;
     cameraGoal.distance = 30;
@@ -894,8 +907,9 @@
     }
     selectedTheme = themeId;
     selectedPlanet = null;
+    galaxyFocusMode = true;
     cameraGoal.target.copy(themeMap[themeId].layout.center);
-    cameraGoal.distance = 14;
+    cameraGoal.distance = 8.2;
     cameraGoal.pitch = 0.45;
     cameraGoal.yaw = 0.82;
     if (instant && cameraState.target) {
@@ -908,6 +922,18 @@
     highlightPlanet(null);
     updateThemeRings();
     renderBreadcrumb();
+  }
+
+  function handleStarClick(themeId) {
+    var now = Date.now();
+    var previous = starClickTimes[themeId] || 0;
+    if (now - previous < 420) {
+      starClickTimes[themeId] = 0;
+      if (APP.openGalaxySettings) APP.openGalaxySettings(themeId);
+      return;
+    }
+    starClickTimes[themeId] = now;
+    focusTheme(themeId);
   }
 
   function focusArticle(articleId) {
@@ -1171,6 +1197,19 @@
       APP.markMasteredById(id);
       refresh();
       showPlanetCard(id);
+    }
+    if (action === "unlearn") {
+      var unlearnId = button.getAttribute("data-article-id");
+      APP.resetLearningById(unlearnId, "unlearn");
+      refresh();
+      selectedPlanet = null;
+      $("planetCard").hidden = true;
+    }
+    if (action === "unlight") {
+      var unlightId = button.getAttribute("data-article-id");
+      APP.resetLearningById(unlightId, "unlight");
+      refresh();
+      showPlanetCard(unlightId);
     }
     if (action === "open-zhihu") API.openZhihuSearch(button.getAttribute("data-query"));
     if (action === "focus-article") focusArticle(button.getAttribute("data-article-id"));

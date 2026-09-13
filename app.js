@@ -100,6 +100,30 @@
       '<path d="M6 11a4 4 0 1 1 2-7.5A4.5 4.5 0 0 1 12 2a4.5 4.5 0 0 1 4 1.5A4 4 0 1 1 18 11Z"/><path d="M6 11v9h12v-9"/><path d="M9 15h6"/>',
     utensils:
       '<path d="M7 2v20"/><path d="M4 2v5a3 3 0 0 0 3 3 3 3 0 0 0 3-3V2"/><path d="M16 2v20"/><path d="M16 2c3 2 4 5 4 8h-4"/>',
+    "message-circle":
+      '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.8 9.8 0 0 1-4-.8L3 21l1.7-4.4A8.4 8.4 0 1 1 21 11.5Z"/>',
+    bot:
+      '<rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M9 17h6"/>',
+    sliders:
+      '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/>',
+    layout:
+      '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+    "mouse-pointer":
+      '<path d="m4 3 7.5 17 2.2-6.3L20 11.5Z"/><path d="m13.7 13.7 4.8 4.8"/>',
+    "sticky-note":
+      '<path d="M4 3h16v13l-5 5H4Z"/><path d="M20 16h-5v5"/><path d="M8 8h8"/><path d="M8 12h5"/>',
+    type:
+      '<path d="M4 6V4h16v2"/><path d="M9 20h6"/><path d="M12 4v16"/>',
+    square:
+      '<rect x="4" y="4" width="16" height="16" rx="2"/>',
+    pencil:
+      '<path d="m14 4 6 6L8 22H2v-6Z"/><path d="m12 6 6 6"/>',
+    eraser:
+      '<path d="m18 13-5-5L4 17l3 3h7l4-4a2 2 0 0 0 0-3Z"/><path d="m14 9 3-3a2 2 0 0 1 3 0l1 1a2 2 0 0 1 0 3l-3 3"/>',
+    undo:
+      '<path d="M9 7 4 12l5 5"/><path d="M5 12h8a6 6 0 0 1 6 6v1"/>',
+    move:
+      '<path d="M5 9 2 12l3 3"/><path d="m9 5 3-3 3 3"/><path d="m15 19-3 3-3-3"/><path d="m19 9 3 3-3 3"/><path d="M2 12h20"/><path d="M12 2v20"/>',
   };
 
   function icon(name) {
@@ -179,35 +203,44 @@
   var STEP_DEFINITIONS = [
     {
       id: "surface",
-      title: "定位主张",
-      short: "看懂作者在说什么",
+      title: "看懂回答",
+      short: "作者在回答什么",
       icon: "target",
-      label: "表层拆解",
+      label: "问题与结论",
       intro:
-        "先不急着认同或反对。把结论、事实、隐含假设和依赖条件分开，才知道这篇内容究竟建立在什么之上。",
+        "先回答三个最小问题：作者在回答什么、最核心的结论是什么、这个结论对谁成立。",
+    },
+    {
+      id: "evidence",
+      title: "拆出依据",
+      short: "结论靠什么支撑",
+      icon: "link",
+      label: "事实、经验与假设",
+      intro:
+        "把事实、案例、个人经验和没有说出口的假设分开。知乎回答最重要的不是观点，而是观点背后的证据结构。",
     },
     {
       id: "first",
-      title: "第一性根基",
-      short: "追问为什么成立",
+      title: "追问根基",
+      short: "为什么它能成立",
       icon: "layers",
-      label: "第一性原理",
+      label: "第一性原理与边界",
       intro:
-        "去掉术语与经验判断，只保留基本公理，再从公理重新推回结论。能重建的推理，才真正属于你。",
+        "去掉术语和个案，找到最底层公理，再重建结论。同时寻找理想形态、现实偏差和反例。",
     },
     {
-      id: "ideal",
-      title: "理想型与偏差",
-      short: "寻找本质形态",
-      icon: "orbit",
-      label: "柏拉图理想型",
+      id: "debate",
+      title: "AI 抬杠",
+      short: "让 AI 反过来问你",
+      icon: "bot",
+      label: "主动回忆与压力测试",
       intro:
-        "把文章中的方法抽象为理想形态，再比较它和现实之间为什么会偏差。理解边界，比记住答案更重要。",
+        "你不需要写一篇总结。只要告诉 AI“我学会了”，它就会追问边界、反例和前提，直到你的理解经得住反驳。",
     },
     {
       id: "transfer",
-      title: "迁移与行动",
-      short: "变成自己的方法",
+      title: "化为己用",
+      short: "放回你的现实",
       icon: "route",
       label: "迁移与行动",
       intro:
@@ -254,16 +287,18 @@
         universe: true,
       },
       workspace: {
+        layoutMode: "modules",
         defaultDepth: "deep",
         aiTone: "balanced",
         intakeMode: "manual",
         readingDensity: "comfortable",
         reduceMotion: false,
-        stepOrder: ["surface", "first", "ideal", "transfer"],
+        stepOrder: ["surface", "evidence", "first", "debate", "transfer"],
         stepEnabled: {
           surface: true,
+          evidence: true,
           first: true,
-          ideal: true,
+          debate: true,
           transfer: true,
         },
       },
@@ -276,7 +311,7 @@
       },
       small: {
         themes: {},
-        steps: {},
+        articles: {},
         galaxies: {},
       },
     };
@@ -329,6 +364,7 @@
               ? ["surface", "first"]
               : [],
         notes: [],
+        aiMessages: [],
       };
     });
 
@@ -343,7 +379,7 @@
     });
 
     return {
-      version: 2,
+      version: 3,
       currentView: "workspace",
       selectedTheme: "learning",
       selectedArticle: null,
@@ -359,6 +395,7 @@
       universeItems: universeItems,
       universeMode: "zhihu",
       preferences: clone(DATA.preferences),
+      boards: {},
       settings: defaultSettings(),
       guideSeen: {
         workspace: false,
@@ -372,9 +409,11 @@
     try {
       var stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
       if (!stored) return fallback;
-      if (stored.version !== 1 && stored.version !== 2) return fallback;
+      if (stored.version !== 1 && stored.version !== 2 && stored.version !== 3) {
+        return fallback;
+      }
       var merged = Object.assign(fallback, stored);
-      merged.version = 2;
+      merged.version = 3;
       merged.articles = Object.assign(fallback.articles, stored.articles || {});
       merged.importedArticles = Object.assign(
         fallback.importedArticles,
@@ -394,6 +433,7 @@
         fallback.guideSeen,
         stored.guideSeen || {},
       );
+      merged.boards = Object.assign({}, stored.boards || {});
       if (typeof merged.articleStep === "number") {
         merged.articleStep =
           (STEP_DEFINITIONS[merged.articleStep - 1] || STEP_DEFINITIONS[0]).id;
@@ -401,11 +441,46 @@
       Object.keys(merged.articles).forEach(function (id) {
         var articleState = merged.articles[id];
         if (!articleState || !Array.isArray(articleState.completedSteps)) return;
-        articleState.completedSteps = articleState.completedSteps.map(function (step) {
-          if (typeof step === "string") return step;
-          return (STEP_DEFINITIONS[step - 1] || STEP_DEFINITIONS[0]).id;
-        });
+        articleState.completedSteps = articleState.completedSteps
+          .map(function (step) {
+            if (typeof step === "number") {
+              return [
+                "surface",
+                "first",
+                "ideal",
+                "transfer",
+                "transfer",
+              ][step - 1];
+            }
+            return step === "ideal" ? "first" : step;
+          })
+          .filter(function (step, index, list) {
+            return step && list.indexOf(step) === index;
+          });
+        if (articleState.status === "lit") {
+          articleState.completedSteps = STEP_DEFINITIONS.map(function (step) {
+            return step.id;
+          });
+        }
       });
+      if (stored.version < 3) {
+        var migratedOrder = [];
+        (merged.settings.workspace.stepOrder || []).forEach(function (stepId) {
+          var nextId = stepId === "ideal" ? "first" : stepId;
+          if (migratedOrder.indexOf(nextId) === -1) migratedOrder.push(nextId);
+        });
+        ["surface", "evidence", "first", "debate", "transfer"].forEach(function (stepId) {
+          if (migratedOrder.indexOf(stepId) === -1) migratedOrder.push(stepId);
+        });
+        merged.settings.workspace.stepOrder = migratedOrder;
+        merged.settings.workspace.stepEnabled.evidence =
+          merged.settings.workspace.stepEnabled.evidence !== false;
+        merged.settings.workspace.stepEnabled.debate =
+          merged.settings.workspace.stepEnabled.debate !== false;
+        merged.settings.workspace.stepEnabled.first =
+          merged.settings.workspace.stepEnabled.first !== false;
+        delete merged.settings.workspace.stepEnabled.ideal;
+      }
       return merged;
     } catch (error) {
       return fallback;
@@ -430,8 +505,10 @@
         mastery: 0,
         completedSteps: [],
         notes: [],
+        aiMessages: [],
       };
     }
+    if (!state.articles[id].aiMessages) state.articles[id].aiMessages = [];
     return state.articles[id];
   }
 
@@ -441,8 +518,10 @@
     });
   }
 
-  function enabledStepIds() {
+  function enabledStepIds(articleId) {
     var workspace = state.settings.workspace;
+    var articleOverride =
+      (state.settings.small.articles[articleId] || {}).stepEnabled || {};
     var order = workspace.stepOrder.filter(function (id) {
       return STEP_DEFINITIONS.some(function (step) {
         return step.id === id;
@@ -452,21 +531,18 @@
       if (order.indexOf(step.id) === -1) order.push(step.id);
     });
     var enabled = order.filter(function (id) {
-      return workspace.stepEnabled[id] !== false;
+      return (
+        articleOverride[id] !== undefined
+          ? articleOverride[id] !== false
+          : workspace.stepEnabled[id] !== false
+      );
     });
     return enabled.length ? enabled : [order[0] || "surface"];
   }
 
-  function stepNumber(id) {
-    var index = enabledStepIds().indexOf(id);
+  function stepNumber(id, articleId) {
+    var index = enabledStepIds(articleId).indexOf(id);
     return index === -1 ? 1 : index + 1;
-  }
-
-  function completedRequiredSteps(articleState) {
-    var required = enabledStepIds();
-    return required.every(function (id) {
-      return articleState.completedSteps.indexOf(id) !== -1;
-    });
   }
 
   function statusLabel(status) {
@@ -532,6 +608,11 @@
   };
   var smallSettingsContext = null;
   var settingsContext = "workspace";
+  var boardThemeId = null;
+  var boardTool = "select";
+  var boardHistory = [];
+  var boardDrawing = null;
+  var suppressThemeClick = false;
 
   function setView(view, options) {
     var next = options || {};
@@ -674,6 +755,11 @@
           theme.color +
           '">' +
           '<div class="theme-card-top">' +
+          '<span class="theme-drag-handle" data-drag-theme="' +
+          theme.id +
+          '" title="拖动主题">' +
+          icon("move") +
+          "</span>" +
           '<span class="theme-symbol">' +
           icon(themeIcon(theme.id)) +
           "</span>" +
@@ -702,6 +788,12 @@
           "</strong> 篇收藏 · " +
           mastered +
           " 篇掌握</span>" +
+          '<div class="theme-card-actions">' +
+          '<button class="theme-board-button" data-board-theme="' +
+          theme.id +
+          '" type="button" title="打开无边记" aria-label="打开无边记">' +
+          icon("layout") +
+          "</button>" +
           '<button class="universe-button ' +
           (added ? "" : "primary") +
           '" data-add-theme="' +
@@ -710,10 +802,36 @@
           (added ? "查看星系" : "加入宇宙") +
           "</button>" +
           "</div>" +
+          "</div>" +
           "</article>"
         );
       })
       .join("");
+    var layoutMode = state.settings.workspace.layoutMode || "modules";
+    $("themeGrid").className =
+      "theme-grid layout-" +
+      (layoutMode === "horizontal"
+        ? "horizontal"
+        : layoutMode === "free"
+          ? "free"
+          : "modules");
+    if (layoutMode === "free") {
+      Array.prototype.forEach.call($("themeGrid").children, function (card, index) {
+        var themeId = card.getAttribute("data-theme-id");
+        state.settings.small.themes[themeId] =
+          state.settings.small.themes[themeId] || {};
+        var position = state.settings.small.themes[themeId].position;
+        if (!position) {
+          position = {
+            x: 18 + (index % 3) * 31.5,
+            y: 18 + Math.floor(index / 3) * 230,
+          };
+          state.settings.small.themes[themeId].position = position;
+        }
+        card.style.left = position.x + "%";
+        card.style.top = position.y + "px";
+      });
+    }
   }
 
   function themeIcon(themeId) {
@@ -886,14 +1004,14 @@
       " " +
       escapeHtml(String(articleState.completedSteps.length)) +
       " / " +
-      escapeHtml(String(enabledStepIds().length)) +
+      escapeHtml(String(enabledStepIds(article.id).length)) +
       " 步已拆 · " +
       escapeHtml(String(articleState.mastery)) +
       "% 掌握度";
   }
 
   function renderStepNav(article, articleState) {
-    $("stepNav").innerHTML = enabledStepIds()
+    $("stepNav").innerHTML = enabledStepIds(article.id)
       .map(function (stepId, index) {
         var meta = getStepMeta(stepId);
         var done = articleState.completedSteps.indexOf(stepId) !== -1;
@@ -936,10 +1054,21 @@
       content =
         '<div class="analysis-grid">' +
         '<section class="analysis-card is-wide"><h3>' +
+        icon("message-circle") +
+        "它正在回答什么</h3><p>" +
+        escapeHtml(article.question) +
+        "</p></section>" +
+        '<section class="analysis-card is-wide"><h3>' +
         icon("target") +
         "作者的核心结论</h3><p>" +
         escapeHtml(analysis.surface.conclusion) +
-        "</p></div>" +
+        "</p></section>" +
+        "</div>";
+    }
+
+    if (state.articleStep === "evidence") {
+      content =
+        '<div class="analysis-grid">' +
         '<section class="analysis-card"><h3>' +
         icon("check") +
         "可验证的事实</h3>" +
@@ -984,19 +1113,8 @@
         "边界条件</h3><p>" +
         escapeHtml(analysis.first.boundary) +
         "</p></section>" +
-        "</div>";
-    }
-
-    if (state.articleStep === "ideal") {
-      content =
-        '<div class="analysis-grid">' +
         '<section class="analysis-card"><h3>' +
         icon("orbit") +
-        "本质定义</h3><p>" +
-        escapeHtml(analysis.ideal.essence) +
-        "</p></section>" +
-        '<section class="analysis-card"><h3>' +
-        icon("target") +
         "理想形态</h3><p>" +
         escapeHtml(analysis.ideal.idealForm) +
         "</p></section>" +
@@ -1005,12 +1123,38 @@
         "现实偏差</h3><p>" +
         escapeHtml(analysis.ideal.realityGap) +
         "</p></section>" +
-        '<section class="analysis-card"><h3>' +
+        '<section class="analysis-card is-wide"><h3>' +
         icon("shield") +
         "反例检验</h3><p>" +
         escapeHtml(analysis.ideal.counterexample) +
         "</p></section>" +
         "</div>";
+    }
+
+    if (state.articleStep === "debate") {
+      var messages = articleState.aiMessages || [];
+      content =
+        '<section class="debate-panel">' +
+        '<div class="debate-header">' +
+        icon("bot") +
+        '<div><strong>AI 抬杠席</strong><small>输入“我学会了”开始压力测试</small></div></div>' +
+        '<div class="debate-messages" id="debateMessages">' +
+        (messages.length
+          ? messages
+              .map(function (message) {
+                return (
+                  '<div class="debate-message ' +
+                  message.role +
+                  '">' +
+                  escapeHtml(message.text) +
+                  "</div>"
+                );
+              })
+              .join("")
+          : '<div class="debate-message ai">先别急着总结。告诉我“我学会了”，我会用一个边界问题检验你是不是真的掌握了。</div>') +
+        "</div>" +
+        '<form class="debate-input" id="debateForm"><input id="debateInput" type="text" placeholder="输入你的回答，或直接发送“我学会了”" autocomplete="off"><button type="submit">发送</button></form>' +
+        "</section>";
     }
 
     if (state.articleStep === "transfer") {
@@ -1035,7 +1179,7 @@
 
     var footer = "";
     var complete = articleState.completedSteps.indexOf(state.articleStep) !== -1;
-    var enabledSteps = enabledStepIds();
+    var enabledSteps = enabledStepIds(article.id);
     var currentStepIndex = enabledSteps.indexOf(state.articleStep);
     if (currentStepIndex < enabledSteps.length - 1) {
       footer =
@@ -1066,13 +1210,21 @@
               "</button>") +
           '<button class="button button-primary" data-action="mark-mastered" type="button">' +
           icon("check") +
-          "标记为已掌握" +
+          "点亮这颗星球" +
+          "</button>" +
+          '<button class="button button-quiet" data-action="unlearn" type="button">' +
+          icon("refresh") +
+          "改为未学会，再学一遍" +
           "</button>";
       } else {
         footer =
           '<button class="button button-primary" data-action="open-universe" type="button">' +
           icon("orbit") +
           "去宇宙查看已点亮星球" +
+          "</button>" +
+          '<button class="button button-quiet" data-action="unlight" type="button">' +
+          icon("refresh") +
+          "改为未点亮，再学一遍" +
           "</button>";
       }
     }
@@ -1081,7 +1233,6 @@
       '<header class="stage-heading" style="--theme-color:' +
       themeOf(article.themeId).color +
       '">' +
-      '<div class="stage-heading-row"><div>' +
       '<span class="stage-label">' +
       "STEP " +
       String(currentStepIndex + 1).padStart(2, "0") +
@@ -1094,11 +1245,6 @@
       "<p>" +
       escapeHtml(meta.intro) +
       "</p>" +
-      "</div>" +
-      '<button class="region-settings-button" data-action="open-step-settings" type="button">' +
-      icon("settings") +
-      "步骤小设置" +
-      "</button></div>" +
       "</header>" +
       content +
       '<footer class="stage-footer">' +
@@ -1128,23 +1274,64 @@
       .join("");
   }
 
+  function renderArticleAi(articleState) {
+    var response = $("articleAiResponse");
+    var latest = articleState.aiMessages
+      .slice()
+      .reverse()
+      .find(function (message) {
+        return message.role === "ai";
+      });
+    response.hidden = !latest;
+    response.textContent = latest ? latest.text : "";
+  }
+
+  async function submitArticleAi(message, source) {
+    var text = String(message || "").trim();
+    if (!text) return;
+    var article = articleById(state.selectedArticle);
+    if (!article) return;
+    var articleState = getArticleState(article.id);
+    articleState.aiMessages.push({ role: "user", text: text });
+    if (source === "debate") renderArticle();
+    else renderArticleAi(articleState);
+    saveState();
+    try {
+      var answer = await API.articleChat(article, text);
+      articleState.aiMessages.push({ role: "ai", text: answer });
+      renderArticleAi(articleState);
+      if (state.articleStep === "debate") renderArticle();
+      saveState();
+    } catch (error) {
+      showToast("AI 暂时没有回应：" + error.message, "warning");
+    }
+  }
+
   function renderArticle(stepOverride) {
     var article = articleById(state.selectedArticle);
     if (!article) {
       setView("workspace");
       return;
     }
-    if (stepOverride && stepById(stepOverride) && enabledStepIds().indexOf(stepOverride) !== -1) {
+    if (
+      stepOverride &&
+      stepById(stepOverride) &&
+      enabledStepIds(article.id).indexOf(stepOverride) !== -1
+    ) {
       state.articleStep = stepOverride;
     }
-    if (enabledStepIds().indexOf(state.articleStep) === -1) {
-      state.articleStep = enabledStepIds()[0];
+    if (enabledStepIds(article.id).indexOf(state.articleStep) === -1) {
+      state.articleStep = enabledStepIds(article.id)[0];
     }
     var articleState = getArticleState(article.id);
     renderArticleIdentity(article, articleState);
     renderStepNav(article, articleState);
     renderAnalysisStage(article, articleState);
     renderNotes(articleState);
+    renderArticleAi(articleState);
+    $("analysisStage").dataset.depth =
+      state.settings.workspace.defaultDepth;
+    $("analysisStage").dataset.density = state.settings.workspace.readingDensity;
     saveState();
   }
 
@@ -1155,7 +1342,7 @@
     state.lastArticle = id;
     state.selectedTheme = article.themeId;
     var articleState = getArticleState(id);
-    var steps = enabledStepIds();
+    var steps = enabledStepIds(id);
     var nextStep = steps.find(function (stepId) {
       return articleState.completedSteps.indexOf(stepId) === -1;
     });
@@ -1265,7 +1452,7 @@
     if (!article) return;
     var articleState = getArticleState(articleId);
     if (articleState.status === "seed") {
-      showToast("先完成四步拆解，文章才会形成行星", "warning");
+      showToast("先完成学习步骤，文章才会形成行星", "warning");
       return;
     }
     if (state.addedThemes.indexOf(article.themeId) === -1) {
@@ -1283,10 +1470,10 @@
       articleState.completedSteps.push(state.articleStep);
       articleState.mastery = Math.max(
         articleState.mastery,
-        stepNumber(state.articleStep) * 18,
+        stepNumber(state.articleStep, state.selectedArticle) * 18,
       );
     }
-    var steps = enabledStepIds();
+    var steps = enabledStepIds(state.selectedArticle);
     var index = steps.indexOf(state.articleStep);
     state.articleStep = steps[Math.min(steps.length - 1, index + 1)];
     renderArticle();
@@ -1295,7 +1482,7 @@
 
   function finishAnalysis() {
     var articleState = getArticleState(state.selectedArticle);
-    enabledStepIds().forEach(function (stepId) {
+    enabledStepIds(state.selectedArticle).forEach(function (stepId) {
       if (articleState.completedSteps.indexOf(stepId) === -1) {
         articleState.completedSteps.push(stepId);
       }
@@ -1311,12 +1498,37 @@
     var articleState = getArticleState(state.selectedArticle);
     articleState.status = "lit";
     articleState.mastery = Math.max(articleState.mastery, 88);
-    enabledStepIds().forEach(function (stepId) {
+    enabledStepIds(state.selectedArticle).forEach(function (stepId) {
       if (articleState.completedSteps.indexOf(stepId) === -1) {
         articleState.completedSteps.push(stepId);
       }
     });
     showToast("这颗行星已经点亮，并纳入长期知识链", "success");
+    renderArticle();
+    renderWorkspace();
+    saveState();
+  }
+
+  function resetLearningProgress(mode) {
+    var articleState = getArticleState(state.selectedArticle);
+    if (mode === "unlearn") {
+      articleState.status = "seed";
+      articleState.mastery = Math.min(articleState.mastery, 30);
+      articleState.completedSteps = [];
+      showToast("已改为未学会，笔记、AI 对话和设置都会保留", "success");
+    } else {
+      articleState.status = "planet";
+      articleState.mastery = Math.min(
+        Math.max(articleState.mastery, 60),
+        86,
+      );
+      enabledStepIds(state.selectedArticle).forEach(function (stepId) {
+        if (articleState.completedSteps.indexOf(stepId) === -1) {
+          articleState.completedSteps.push(stepId);
+        }
+      });
+      showToast("已改为未点亮，可以重新完成最后一步", "success");
+    }
     renderArticle();
     renderWorkspace();
     saveState();
@@ -1412,11 +1624,12 @@
           (state.settings.universe.highPerformance ? " checked" : "") +
           "><span></span></label></div>" +
           "</div></section>"
-        : '<section class="settings-block"><div class="settings-block-title"><div><h3>四步学习流程</h3><p>可以关闭不使用的步骤并调整先后顺序，数据不会删除。</p></div></div><div class="step-order-list">' +
+        : '<section class="settings-block"><div class="settings-block-title"><div><h3>学习步骤</h3><p>可以关闭不使用的步骤并调整先后顺序，数据不会删除。</p></div></div><div class="step-order-list">' +
           stepOrderHtml() +
           "</div></section>" +
           '<section class="settings-block"><div class="settings-block-title"><div><h3>学习默认值</h3><p>单篇文章和单个步骤可在区域小设置中临时覆盖。</p></div></div>' +
           '<div class="settings-grid">' +
+          '<label class="field"><span>主题排列方式</span><select id="workspaceLayoutSelect"><option value="horizontal">横向并列</option><option value="modules">模块式</option><option value="free">随机可移动存放式</option></select></label>' +
           '<label class="field"><span>默认拆解深度</span><select id="workspaceDepthSelect"><option value="quick">快速定位</option><option value="standard">标准拆解</option><option value="deep">第一性深挖</option></select></label>' +
           '<label class="field"><span>AI 默认语气</span><select id="workspaceAiSelect"><option value="explain">解释型</option><option value="balanced">平衡型</option><option value="challenge">追问型</option><option value="counter">反例型</option></select></label>' +
           '<label class="field"><span>收藏进入方式</span><select id="workspaceIntakeSelect"><option value="manual">手动挑选</option><option value="assisted">AI 粗筛后确认</option><option value="automatic">自动进入待拆解</option></select></label>' +
@@ -1429,6 +1642,8 @@
       $("universeLabelSelect").value = state.settings.universe.labelMode;
       $("universeSensitivitySelect").value = state.settings.universe.sensitivity;
     } else {
+      $("workspaceLayoutSelect").value =
+        state.settings.workspace.layoutMode || "modules";
       $("workspaceDepthSelect").value = state.settings.workspace.defaultDepth;
       $("workspaceAiSelect").value = state.settings.workspace.aiTone;
       $("workspaceIntakeSelect").value = state.settings.workspace.intakeMode;
@@ -1459,6 +1674,7 @@
       state.settings.universe.highPerformance =
         $("universePerformanceToggle").checked;
     } else {
+      state.settings.workspace.layoutMode = $("workspaceLayoutSelect").value;
       state.settings.workspace.defaultDepth = $("workspaceDepthSelect").value;
       state.settings.workspace.aiTone = $("workspaceAiSelect").value;
       state.settings.workspace.intakeMode = $("workspaceIntakeSelect").value;
@@ -1527,16 +1743,8 @@
             "</small></label>"
           );
         }).join("") +
-        "</div></section>";
-    }
-    if (context.type === "step") {
-      var step = getStepMeta(context.id);
-      var stepSmall = state.settings.small.steps[context.id] || {};
-      title = step.title + " · 步骤设置";
-      html =
-        '<section class="settings-block"><div class="settings-block-title"><div><h3>单步骤覆盖</h3><p>这里的选择优先于中心设置，只作用于这个步骤。</p></div></div>' +
-        '<div class="settings-grid"><label class="field"><span>内容深度</span><select id="smallStepDepth"><option value="">继承中心设置</option><option value="quick">精简</option><option value="standard">标准</option><option value="deep">深入</option></select></label>' +
-        '<label class="field"><span>AI 语气</span><select id="smallStepTone"><option value="">继承中心设置</option><option value="explain">解释型</option><option value="balanced">平衡型</option><option value="challenge">追问型</option><option value="counter">反例型</option></select></label></div></section>';
+        "</div></section>" +
+        '<section class="settings-block danger-zone"><div><h3>删除星系</h3><p>只从炼金宇宙移除，收藏主题、文章和进度全部保留。</p></div><button class="button button-danger" id="deleteGalaxyButton" type="button">删除这个星系</button></section>';
     }
     if (context.type === "galaxy") {
       var galaxy = themeOf(context.id);
@@ -1567,14 +1775,39 @@
         }).join("") +
         "</div></section>";
     }
+    if (context.type === "article") {
+      var article = articleById(context.id);
+      var articleSmall = state.settings.small.articles[context.id] || {};
+      title = "文章学习步骤";
+      html =
+        '<section class="settings-block"><div class="settings-block-title"><div><h3>这篇文章使用哪些步骤</h3><p>只影响当前文章。关闭后数据保留，重新打开即可恢复。</p></div></div><div class="toggle-list">' +
+        state.settings.workspace.stepOrder
+          .map(function (stepId) {
+            var step = getStepMeta(stepId);
+            var inherited =
+              state.settings.workspace.stepEnabled[stepId] !== false;
+            var enabled =
+              articleSmall.stepEnabled &&
+              articleSmall.stepEnabled[stepId] !== undefined
+                ? articleSmall.stepEnabled[stepId]
+                : inherited;
+            return (
+              '<div class="toggle-row"><span class="toggle-copy"><strong>' +
+              escapeHtml(step.title) +
+              "</strong><small>" +
+              escapeHtml(step.short) +
+              '</small></span><label class="switch"><input type="checkbox" data-article-step-toggle="' +
+              stepId +
+              '"' +
+              (enabled ? " checked" : "") +
+              "><span></span></label></div>"
+            );
+          })
+          .join("") +
+        "</div></section>";
+    }
     $("smallSettingsTitle").textContent = title;
     $("smallSettingsBody").innerHTML = html;
-    if (context.type === "step") {
-      $("smallStepDepth").value =
-        (state.settings.small.steps[context.id] || {}).depth || "";
-      $("smallStepTone").value =
-        (state.settings.small.steps[context.id] || {}).tone || "";
-    }
     if (context.type === "galaxy") {
       $("smallGalaxySpeed").value =
         (state.settings.small.galaxies[context.id] || {}).orbitSpeed || "";
@@ -1598,16 +1831,14 @@
       );
       if (selectedThemeColor && selectedThemeColor.value) {
         themeOverride.color = selectedThemeColor.value;
+        state.settings.small.galaxies[context.id] =
+          state.settings.small.galaxies[context.id] || {};
+        state.settings.small.galaxies[context.id].color =
+          selectedThemeColor.value;
       } else {
         delete themeOverride.color;
       }
       state.settings.small.themes[context.id] = themeOverride;
-    }
-    if (context.type === "step") {
-      var stepOverride = state.settings.small.steps[context.id] || {};
-      stepOverride.depth = $("smallStepDepth").value || undefined;
-      stepOverride.tone = $("smallStepTone").value || undefined;
-      state.settings.small.steps[context.id] = stepOverride;
     }
     if (context.type === "galaxy") {
       var galaxyOverride =
@@ -1619,12 +1850,31 @@
       );
       if (selectedGalaxyColor && selectedGalaxyColor.value) {
         galaxyOverride.color = selectedGalaxyColor.value;
+        state.settings.small.themes[context.id] =
+          state.settings.small.themes[context.id] || {};
+        state.settings.small.themes[context.id].color =
+          selectedGalaxyColor.value;
       } else {
         delete galaxyOverride.color;
       }
       state.settings.small.galaxies[context.id] = galaxyOverride;
     }
+    if (context.type === "article") {
+      var articleOverride =
+        state.settings.small.articles[context.id] || {};
+      articleOverride.stepEnabled = articleOverride.stepEnabled || {};
+      $("smallSettingsBody")
+        .querySelectorAll("[data-article-step-toggle]")
+        .forEach(function (input) {
+          articleOverride.stepEnabled[input.getAttribute("data-article-step-toggle")] =
+            input.checked;
+        });
+      state.settings.small.articles[context.id] = articleOverride;
+    }
     renderWorkspace();
+    if (context.type === "article" && state.selectedArticle === context.id) {
+      renderArticle();
+    }
     saveState();
     if (window.RK_UNIVERSE && window.RK_UNIVERSE.refresh) {
       window.RK_UNIVERSE.refresh();
@@ -1637,16 +1887,22 @@
     if (smallSettingsContext.type === "theme") {
       delete state.settings.small.themes[smallSettingsContext.id];
     }
-    if (smallSettingsContext.type === "step") {
-      delete state.settings.small.steps[smallSettingsContext.id];
-    }
     if (smallSettingsContext.type === "galaxy") {
       delete state.settings.small.galaxies[smallSettingsContext.id];
+    }
+    if (smallSettingsContext.type === "article") {
+      delete state.settings.small.articles[smallSettingsContext.id];
     }
     saveState();
     $("smallSettingsDialog").close();
     document.body.classList.remove("is-dialog-open");
     renderWorkspace();
+    if (
+      smallSettingsContext.type === "article" &&
+      state.selectedArticle === smallSettingsContext.id
+    ) {
+      renderArticle();
+    }
     if (window.RK_UNIVERSE && window.RK_UNIVERSE.refresh) {
       window.RK_UNIVERSE.refresh();
     }
@@ -1654,77 +1910,145 @@
   }
 
   function openGuide(module) {
-    var guides = {
+    var detailedGuides = {
       workspace: {
-        kicker: "收藏拆解 · 模块指南",
-        title: "把收藏整理成可学习的知识主题",
+        kicker: "收藏拆解 · 完整操作指南",
+        title: "从收藏到真正理解的每一步",
         intro:
-          "这个模块只做一件事：把零散收藏归入清晰主题，并带你完成四步拆解，让文章从“看过”变成“能用”。",
+          "这个模块负责整理主题、拆解回答、与 AI 抬杠并记录自己的理解。第一次使用可以严格按下面顺序操作。",
         steps: [
           {
-            title: "整理主题",
-            text: "首页显示全部文章类别。点击“新建类别”，输入名称并选择贴近内容的图标和颜色。类别只负责组织，不会删除原收藏。",
+            title: "同步并归类收藏",
+            text: "首页只显示主题归类。右上角可以同步收藏或创建新类别。",
+            actions: [
+              "点击“同步收藏”更新收藏数据。",
+              "点击“新建类别”，填写名称并选择图标与主题色。",
+              "点击主题卡片进入文章列表；点击卡片齿轮调整颜色、顺序和显示状态。",
+            ],
           },
           {
-            title: "进入主题",
-            text: "点击任意类别卡片进入主题详情，查看其中的文章、状态和掌握度。左下角可以返回上一界面或回到主页。",
+            title: "选择主题排列方式",
+            text: "点击模块右上角的中心设置图标，选择主题的摆放方式。",
+            actions: [
+              "横向并列适合快速横向浏览。",
+              "模块式适合主题数量不多时集中查看。",
+              "随机可移动存放式可以拖动卡片顶部手柄，位置自动保存。",
+            ],
           },
           {
-            title: "定位主张",
-            text: "先分清楚作者的核心结论、事实、隐含假设和成立条件。不要急着认同或反对。",
+            title: "使用无边记",
+            text: "每个主题都有独立无边记，用来摆放便签、文字、矩形和手绘内容。",
+            actions: [
+              "选择便签、文字或矩形后，在画布上点击创建。",
+              "选择工具或直接拖动卡片可以移动内容。",
+              "画布支持缩放、平移、画笔、橡皮和撤销，内容自动保存。",
+            ],
           },
           {
-            title: "第一性根基",
-            text: "找到最底层公理，再从公理一步步重建结论。重建不出来的地方，就是需要继续追问的地方。",
+            title: "理解文章页面",
+            text: "左侧是学习步骤，右侧是内容与札记，顶部是 AI 问答栏和文章小设置。",
+            actions: [
+              "点击左侧步骤跳转，步骤名悬停一秒会显示简短说明。",
+              "文章小设置只为当前文章开关学习步骤。",
+              "AI 输入框可以围绕当前文章随时提问。",
+            ],
           },
           {
-            title: "理想型与偏差",
-            text: "把方法抽象成理想形态，再检查现实偏差、边界和反例。理解适用边界比背诵结论更重要。",
+            title: "看懂回答并拆出依据",
+            text: "先还原作者的问题和结论，再区分事实、经验、假设和依赖条件。",
+            actions: [
+              "不要先判断对错，先确认作者究竟在回答什么。",
+              "把可验证事实与个人经验分开。",
+              "找出结论成立所依赖的前提和边界。",
+            ],
           },
           {
-            title: "迁移与行动",
-            text: "把知识放回你的工作、学习和决策。完成需要的步骤后，文章会形成行星；标记掌握后点亮。",
+            title: "追问根基并让 AI 抬杠",
+            text: "找到基本公理后重建结论，再用反例和边界测试理解。",
+            actions: [
+              "在“AI 抬杠”中输入“我学会了”。",
+              "AI 会追问前提、边界和反例。",
+              "AI 对话会随文章保存，刷新后仍然存在。",
+            ],
+          },
+          {
+            title: "化为己用并回退状态",
+            text: "把知识放回真实情境，再决定是否形成行星或点亮。",
+            actions: [
+              "已形成行星的文章可以改为未学会，重新学习。",
+              "已点亮的文章可以改为未点亮，再次验证。",
+              "改变状态不会删除笔记、AI 对话或设置。",
+            ],
           },
         ],
         tip:
-          "中心设置可以关闭或重排四步流程。主题卡和单个步骤右上角的小设置只覆盖当前区域，关闭模块或隐藏主题都不会删除进度。",
+          "中心设置控制默认步骤。每篇文章的小设置只覆盖当前文章，因此同一套产品可以适应不同文章和不同学习习惯。",
       },
       universe: {
-        kicker: "炼金宇宙 · 模块指南",
-        title: "在星空中管理自己的知识结构",
+        kicker: "炼金宇宙 · 完整操作指南",
+        title: "星系、行星与视角的每一步",
         intro:
-          "这个模块把主题显示为恒星，把文章显示为行星。它帮助你看清知识分布、掌握状态和文章之间的关系。",
+          "主题是恒星，文章是行星。总览只显示主题名，进入星系或放大到一定程度后才显示文章名。",
         steps: [
           {
-            title: "进入星系",
-            text: "每个加入宇宙的主题都是独立的恒星系。点击恒星或左侧列表，可以进入该主题并查看行星。",
+            title: "把主题加入宇宙",
+            text: "在收藏拆解中点击“加入宇宙”，或在知乎搜索结果里加入待拆解内容。",
+            actions: [
+              "加入后生成中心恒星。",
+              "文章完成拆解后成为行星。",
+              "点亮后表示已经掌握。",
+            ],
           },
           {
-            title: "正向旋转",
-            text: "鼠标左键拖动或单指滑动，让视角跟随手势变化。上下俯仰和左右旋转都采用正向操作。",
+            title: "旋转与移动视角",
+            text: "所有拖动都采用正向方向。",
+            actions: [
+              "鼠标左键或单指拖动：旋转视角。",
+              "鼠标右键、中键或双指拖动：移动观察中心。",
+              "先移动观察中心，再用滚轮或双指捏合缩放。",
+            ],
           },
           {
-            title: "移动视角",
-            text: "鼠标右键、中键拖动或双指移动，可以平移观察中心。先移动到想观察的区域。",
+            title: "让文章名出现",
+            text: "总览默认只显示主题名，避免大量文字遮住星系。",
+            actions: [
+              "持续放大，行星达到屏幕比例后显示文章名。",
+              "阈值按屏幕像素计算，桌面和手机一致。",
+              "不需要放大到星系占满全屏。",
+            ],
           },
           {
-            title: "在当前位置缩放",
-            text: "滚轮或双指捏合围绕当前观察中心缩放。缩放到一定比例后，行星会显示文章名字。",
+            title: "单击星系进入全屏",
+            text: "单击中心恒星，镜头会平滑过渡到该星系占据整个画面的状态。",
+            actions: [
+              "进入后显示全部文章名。",
+              "点击行星打开详情。",
+              "点击“全部星域”返回总览。",
+            ],
           },
           {
-            title: "查看与学习",
-            text: "点击行星打开详情，可以继续拆解、标记掌握或前往知乎原文。点击空白处关闭详情。",
+            title: "双击恒星打开小设置",
+            text: "进入星系后再次双击中心恒星。",
+            actions: [
+              "修改星系颜色，恒星、行星和轨道统一变色。",
+              "调整公转速度和文章名显示阈值。",
+              "删除星系只会移出宇宙，收藏和进度全部保留。",
+            ],
           },
           {
-            title: "搜索与加入",
-            text: "搜索栏可以切换“知乎内容”和“我的宇宙”。知乎结果可以加入待拆解；我的宇宙用于定位已有行星。",
+            title: "改变文章状态",
+            text: "行星详情里可以随时回到学习状态。",
+            actions: [
+              "已点亮可以改为未点亮，再学一遍。",
+              "已形成行星可以改为未学会，重新完成步骤。",
+            ],
           },
         ],
         tip:
-          "宇宙中心设置控制布局、标签、关系链和性能；单个星系右侧的小设置可以覆盖颜色、公转速度和标签阈值。",
+          "宇宙中心设置控制全部星系的标签、关系链、动效和性能；单个星系的小设置优先于中心设置。",
       },
     };
-    var guide = guides[module] || guides.workspace;
+    var guide = detailedGuides[module] || detailedGuides.workspace;
     $("guideKicker").textContent = guide.kicker;
     $("guideTitle").textContent = guide.title;
     $("guideBody").innerHTML =
@@ -1740,7 +2064,13 @@
             escapeHtml(step.title) +
             "</h3><p>" +
             escapeHtml(step.text) +
-            "</p></div></section>"
+            "</p><ul>" +
+            (step.actions || [])
+              .map(function (action) {
+                return "<li>" + escapeHtml(action) + "</li>";
+              })
+              .join("") +
+            "</ul></div></section>"
           );
         })
         .join("") +
@@ -1758,6 +2088,152 @@
     document.body.classList.remove("is-dialog-open");
   }
 
+  function getBoard() {
+    if (!state.boards[boardThemeId]) {
+      state.boards[boardThemeId] = {
+        items: [],
+        strokes: [],
+        zoom: 1,
+        panX: 0,
+        panY: 0,
+      };
+    }
+    return state.boards[boardThemeId];
+  }
+
+  function boardSnapshot() {
+    return clone(getBoard());
+  }
+
+  function pushBoardHistory() {
+    boardHistory.push(boardSnapshot());
+    if (boardHistory.length > 30) boardHistory.shift();
+  }
+
+  function renderBoard() {
+    if (!boardThemeId) return;
+    var board = getBoard();
+    var theme = themeOf(boardThemeId);
+    $("boardTitle").textContent = theme.name + " · 无边记";
+    $("boardCanvas").style.transform =
+      "translate(" +
+      board.panX +
+      "px," +
+      board.panY +
+      "px) scale(" +
+      board.zoom +
+      ")";
+    $("boardZoomLabel").textContent = Math.round(board.zoom * 100) + "%";
+    $("boardCanvas").innerHTML =
+      '<svg class="board-ink" aria-hidden="true">' +
+      (board.strokes || [])
+        .map(function (stroke) {
+          return (
+            '<polyline points="' +
+            stroke.points
+              .map(function (point) {
+                return point[0] + "," + point[1];
+              })
+              .join(" ") +
+            '" fill="none" stroke="' +
+            stroke.color +
+            '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>'
+          );
+        })
+        .join("") +
+      "</svg>" +
+      (board.items || [])
+        .map(function (item) {
+          return (
+            '<div class="board-item board-' +
+            item.type +
+            '" data-board-item="' +
+            item.id +
+            '" style="left:' +
+            item.x +
+            "px;top:" +
+            item.y +
+            "px;width:" +
+            item.w +
+            "px;height:" +
+            item.h +
+            "px;" +
+            (item.color ? "background:" + item.color + ";" : "") +
+            '">' +
+            '<div class="board-item-text" contenteditable="true">' +
+            escapeHtml(item.text) +
+            "</div></div>"
+          );
+        })
+        .join("") +
+      (!board.items.length && !board.strokes.length
+        ? '<div class="board-empty"><strong>从一个便签开始</strong><span>点击顶部便签、文本或矩形工具，然后在上方空白处落笔。</span></div>'
+        : "");
+  }
+
+  function openBoard(themeId) {
+    boardThemeId = themeId;
+    boardTool = "select";
+    boardHistory = [];
+    renderBoard();
+    $("boardDialog").showModal();
+    document.body.classList.add("is-dialog-open");
+  }
+
+  function closeBoard() {
+    $("boardDialog").close();
+    document.body.classList.remove("is-dialog-open");
+    saveState();
+  }
+
+  function boardCoordinates(event) {
+    var board = getBoard();
+    var rect = $("boardWorkspace").getBoundingClientRect();
+    return {
+      x: (event.clientX - rect.left - board.panX) / board.zoom,
+      y: (event.clientY - rect.top - board.panY) / board.zoom,
+    };
+  }
+
+  function addBoardItem(type, point) {
+    pushBoardHistory();
+    var id = "item-" + Date.now().toString(36);
+    var defaults = {
+      note: { w: 190, h: 140, text: "双击编辑便签", color: "#fff3bd" },
+      text: { w: 220, h: 72, text: "双击输入文字", color: "" },
+      rect: { w: 220, h: 150, text: "说明", color: "" },
+    }[type];
+    getBoard().items.push({
+      id: id,
+      type: type,
+      x: Math.round(point.x - defaults.w / 2),
+      y: Math.round(point.y - defaults.h / 2),
+      w: defaults.w,
+      h: defaults.h,
+      text: defaults.text,
+      color: defaults.color,
+    });
+    renderBoard();
+    saveState();
+  }
+
+  function updateBoardItem(id, patch) {
+    var item = getBoard().items.find(function (entry) {
+      return entry.id === id;
+    });
+    if (!item) return;
+    Object.assign(item, patch);
+    saveState();
+  }
+
+  function undoBoard() {
+    var previous = boardHistory.pop();
+    if (!previous) return;
+    state.boards[boardThemeId] = previous;
+    renderBoard();
+    saveState();
+  }
+
   function resetDemo() {
     localStorage.removeItem(STORAGE_KEY);
     state = createDefaultState();
@@ -1766,6 +2242,22 @@
     closeSettings();
     setView("workspace");
     showToast("演示数据已恢复", "success");
+  }
+
+  function deleteGalaxyFromUniverse(themeId) {
+    state.addedThemes = state.addedThemes.filter(function (id) {
+      return id !== themeId;
+    });
+    getArticles().forEach(function (article) {
+      if (article.themeId === themeId) delete state.universeItems[article.id];
+    });
+    $("smallSettingsDialog").close();
+    document.body.classList.remove("is-dialog-open");
+    saveState();
+    if (window.RK_UNIVERSE && window.RK_UNIVERSE.refresh) {
+      window.RK_UNIVERSE.refresh();
+    }
+    showToast("星系已从宇宙移除，收藏数据仍然保留", "success");
   }
 
   async function syncCollections() {
@@ -1812,6 +2304,15 @@
     });
 
     $("themeGrid").addEventListener("click", function (event) {
+      if (suppressThemeClick) {
+        suppressThemeClick = false;
+        return;
+      }
+      var boardButton = event.target.closest("[data-board-theme]");
+      if (boardButton) {
+        openBoard(boardButton.getAttribute("data-board-theme"));
+        return;
+      }
       var settingsButton = event.target.closest("[data-theme-settings]");
       if (settingsButton) {
         openSmallSettings({
@@ -1837,9 +2338,61 @@
       var card = event.target.closest("[data-theme-id]");
       if (card) selectTheme(card.getAttribute("data-theme-id"));
     });
+    var themeDrag = null;
+    $("themeGrid").addEventListener("pointerdown", function (event) {
+      if (state.settings.workspace.layoutMode !== "free") return;
+      var handle = event.target.closest("[data-drag-theme]");
+      if (!handle) return;
+      var card = handle.closest(".theme-card");
+      var rect = $("themeGrid").getBoundingClientRect();
+      themeDrag = {
+        id: handle.getAttribute("data-drag-theme"),
+        card: card,
+        startX: event.clientX,
+        startY: event.clientY,
+        left: parseFloat(card.style.left) || 0,
+        top: parseFloat(card.style.top) || 0,
+        width: rect.width,
+      };
+      suppressThemeClick = false;
+      $("themeGrid").setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+    $("themeGrid").addEventListener("pointermove", function (event) {
+      if (!themeDrag) return;
+      var x =
+        themeDrag.left +
+        ((event.clientX - themeDrag.startX) / themeDrag.width) * 100;
+      var y = themeDrag.top + event.clientY - themeDrag.startY;
+      x = Math.max(1, Math.min(76, x));
+      y = Math.max(0, Math.min(900, y));
+      themeDrag.card.style.left = x + "%";
+      themeDrag.card.style.top = y + "px";
+      suppressThemeClick = true;
+      state.settings.small.themes[themeDrag.id] =
+        state.settings.small.themes[themeDrag.id] || {};
+      state.settings.small.themes[themeDrag.id].position = { x: x, y: y };
+    });
+    $("themeGrid").addEventListener("pointerup", function () {
+      if (!themeDrag) return;
+      themeDrag = null;
+      saveState();
+    });
 
     $("openThemeSettings").addEventListener("click", function () {
       openSmallSettings({ type: "theme", id: state.selectedTheme });
+    });
+    $("openThemeBoard").addEventListener("click", function () {
+      openBoard(state.selectedTheme);
+    });
+    $("openArticleSettings").addEventListener("click", function () {
+      openSmallSettings({ type: "article", id: state.selectedArticle });
+    });
+    $("articleAiForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var input = $("articleAiInput");
+      submitArticleAi(input.value, "top");
+      input.value = "";
     });
 
     $("articleList").addEventListener("click", function (event) {
@@ -1882,9 +2435,15 @@
       if (action === "mark-mastered") markMastered();
       if (action === "add-to-universe") addArticleToUniverse(state.selectedArticle);
       if (action === "open-universe") openUniverseForArticle();
-      if (action === "open-step-settings") {
-        openSmallSettings({ type: "step", id: state.articleStep });
-      }
+      if (action === "unlearn") resetLearningProgress("unlearn");
+      if (action === "unlight") resetLearningProgress("unlight");
+    });
+    $("analysisStage").addEventListener("submit", function (event) {
+      if (event.target.id !== "debateForm") return;
+      event.preventDefault();
+      var input = $("debateInput");
+      submitArticleAi(input.value, "debate");
+      input.value = "";
     });
 
     $("noteForm").addEventListener("submit", function (event) {
@@ -1981,6 +2540,139 @@
       document.body.classList.remove("is-dialog-open");
     });
     $("resetSmallSettings").addEventListener("click", resetSmallSettings);
+    $("smallSettingsBody").addEventListener("click", function (event) {
+      if (!event.target.closest("#deleteGalaxyButton")) return;
+      if (smallSettingsContext && smallSettingsContext.type === "galaxy") {
+        deleteGalaxyFromUniverse(smallSettingsContext.id);
+      }
+    });
+
+    $("boardClose").addEventListener("click", closeBoard);
+    $("boardDialog").addEventListener("close", function () {
+      document.body.classList.remove("is-dialog-open");
+    });
+    $("boardTools").addEventListener("click", function (event) {
+      var button = event.target.closest("[data-board-tool]");
+      if (!button) return;
+      boardTool = button.getAttribute("data-board-tool");
+      Array.prototype.forEach.call(
+        $("boardTools").querySelectorAll("button"),
+        function (item) {
+          item.classList.toggle("is-active", item === button);
+        },
+      );
+    });
+    $("boardUndo").addEventListener("click", undoBoard);
+    $("boardZoomOut").addEventListener("click", function () {
+      getBoard().zoom = Math.max(0.45, getBoard().zoom - 0.1);
+      renderBoard();
+      saveState();
+    });
+    $("boardZoomIn").addEventListener("click", function () {
+      getBoard().zoom = Math.min(2.2, getBoard().zoom + 0.1);
+      renderBoard();
+      saveState();
+    });
+
+    var boardDrag = null;
+    $("boardWorkspace").addEventListener("pointerdown", function (event) {
+      var board = getBoard();
+      var itemNode = event.target.closest("[data-board-item]");
+      if (boardTool === "erase") {
+        pushBoardHistory();
+        if (itemNode) {
+          board.items = board.items.filter(function (item) {
+            return item.id !== itemNode.getAttribute("data-board-item");
+          });
+        } else {
+          var point = boardCoordinates(event);
+          board.strokes = (board.strokes || []).filter(function (stroke) {
+            return !stroke.points.some(function (strokePoint) {
+              return (
+                Math.hypot(strokePoint[0] - point.x, strokePoint[1] - point.y) <
+                16 / board.zoom
+              );
+            });
+          });
+        }
+        renderBoard();
+        saveState();
+        return;
+      }
+      if (itemNode && boardTool !== "pen") {
+        boardDrag = {
+          id: itemNode.getAttribute("data-board-item"),
+          start: boardCoordinates(event),
+        };
+        $("boardWorkspace").setPointerCapture(event.pointerId);
+        return;
+      }
+      if (["note", "text", "rect"].indexOf(boardTool) !== -1) {
+        addBoardItem(boardTool, boardCoordinates(event));
+        return;
+      }
+      if (boardTool === "pen") {
+        pushBoardHistory();
+        boardDrawing = { color: "#2f68e8", points: [] };
+        var penPoint = boardCoordinates(event);
+        boardDrawing.points.push([penPoint.x, penPoint.y]);
+        getBoard().strokes.push(boardDrawing);
+        renderBoard();
+        return;
+      }
+      boardDrag = {
+        pan: true,
+        startX: event.clientX,
+        startY: event.clientY,
+        panX: board.panX,
+        panY: board.panY,
+      };
+      $("boardWorkspace").setPointerCapture(event.pointerId);
+    });
+    $("boardWorkspace").addEventListener("pointermove", function (event) {
+      if (!boardDrag && !boardDrawing) return;
+      if (boardDrawing) {
+        var point = boardCoordinates(event);
+        boardDrawing.points.push([point.x, point.y]);
+        renderBoard();
+        return;
+      }
+      if (boardDrag.pan) {
+        var board = getBoard();
+        board.panX = boardDrag.panX + event.clientX - boardDrag.startX;
+        board.panY = boardDrag.panY + event.clientY - boardDrag.startY;
+        renderBoard();
+        return;
+      }
+      var current = boardCoordinates(event);
+      var item = getBoard().items.find(function (entry) {
+        return entry.id === boardDrag.id;
+      });
+      if (item) {
+        item.x += current.x - boardDrag.start.x;
+        item.y += current.y - boardDrag.start.y;
+        boardDrag.start = current;
+        renderBoard();
+      }
+    });
+    $("boardWorkspace").addEventListener("pointerup", function () {
+      boardDrag = null;
+      boardDrawing = null;
+      saveState();
+    });
+    $("boardCanvas").addEventListener("blur", function (event) {
+      var textNode = event.target.closest(".board-item-text");
+      var itemNode = event.target.closest("[data-board-item]");
+      if (!textNode || !itemNode) return;
+      updateBoardItem(
+        itemNode.getAttribute("data-board-item"),
+        { text: textNode.textContent.trim() },
+      );
+    }, true);
+    $("boardCanvas").addEventListener("dblclick", function (event) {
+      var textNode = event.target.closest(".board-item-text");
+      if (textNode) textNode.focus();
+    });
 
     $("themeIconChoices").addEventListener("click", function (event) {
       var button = event.target.closest("[data-theme-icon]");
@@ -2091,6 +2783,11 @@
       if (!articleById(articleId)) return;
       state.selectedArticle = articleId;
       markMastered();
+    },
+    resetLearningById: function (articleId, mode) {
+      if (!articleById(articleId)) return;
+      state.selectedArticle = articleId;
+      resetLearningProgress(mode);
     },
     importSearchResult: function (result) {
       var id = "imported-" + result.id;
