@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="炼知 ReKnow：把知乎收藏拆成可理解、可迁移、可重建的个人知识宇宙。"
+    />
+    <title>炼知 ReKnow · 知识炼金场</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell" id="appShell">
+      <header class="topbar" id="topbar">
+        <div class="topbar-inner">
+          <button class="brand" id="brandHome" type="button" aria-label="返回收藏拆解">
+            <span class="brand-mark" aria-hidden="true">
+              <span></span>
+            </span>
+            <span class="brand-copy">
+              <strong>炼知</strong>
+              <small>ReKnow</small>
+            </span>
+          </button>
+
+          <nav class="main-nav" aria-label="主导航">
+            <button class="nav-item is-active" id="viewWorkspace" type="button">
+              <span class="icon" data-icon="library"></span>
+              <span>收藏拆解</span>
+            </button>
+            <button class="nav-item" id="viewUniverse" type="button">
+              <span class="icon" data-icon="orbit"></span>
+              <span>炼金宇宙</span>
+            </button>
+          </nav>
+
+          <div class="topbar-status">
+            <span class="connection-pill" id="connectionPill">
+              <span class="status-dot"></span>
+              <span>知乎已连接</span>
+            </span>
+            <span class="level-pill" title="炼金进度">
+              <span class="icon" data-icon="flame"></span>
+              <span id="levelLabel">炼金学徒</span>
+              <span class="level-track"><i id="levelBar"></i></span>
+            </span>
+            <button class="icon-button" id="openSettings" type="button" aria-label="个性化设置" title="个性化设置">
+              <span class="icon" data-icon="settings"></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="view workspace-view is-active" id="workspaceView">
+          <div class="workspace-grid">
+            <section class="workspace-hero">
+              <div class="hero-main">
+                <div class="eyebrow">
+                  <span class="live-dot"></span>
+                  收藏已同步 · <span id="syncTime">刚刚</span>
+                </div>
+                <h1>把散落的收藏，炼成你自己的知识宇宙。</h1>
+                <p>
+                  AI 先按知识主题重组收藏，再用第一性原理与理想型分析拆解每一篇。
+                  理解后加入宇宙，让文章从星胚长成行星。
+                </p>
+                <div class="hero-actions">
+                  <button class="button button-primary" id="syncCollections" type="button">
+                    <span class="icon" data-icon="refresh"></span>
+                    重新同步收藏
+                  </button>
+                  <button class="button button-quiet" id="continueLearning" type="button">
+                    <span class="icon" data-icon="play"></span>
+                    继续上次拆解
+                  </button>
+                </div>
+              </div>
+
+              <div class="hero-metrics" aria-label="收藏概览">
+                <div class="metric">
+                  <span class="metric-label">收藏主题</span>
+                  <strong id="metricThemes">0</strong>
+                  <small>AI 已完成聚类</small>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">宇宙行星</span>
+                  <strong id="metricPlanets">0</strong>
+                  <small>等待或已经点亮</small>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">已掌握</span>
+                  <strong id="metricMastered">0</strong>
+                  <small id="metricMasteredHint">继续炼化收藏</small>
+                </div>
+              </div>
+            </section>
+
+            <section class="section-block" aria-labelledby="themeHeading">
+              <div class="section-heading">
+                <div>
+                  <span class="section-kicker">AI 主题聚类</span>
+                  <h2 id="themeHeading">你的收藏星系</h2>
+                </div>
+                <p>加入宇宙时采用当前快照，之后新增文章由你决定是否同步。</p>
+              </div>
+              <div class="theme-grid" id="themeGrid"></div>
+            </section>
+
+            <section class="section-block collection-block" aria-labelledby="collectionHeading">
+              <div class="section-heading collection-heading">
+                <div>
+                  <span class="section-kicker" id="collectionKicker">当前主题</span>
+                  <h2 id="collectionHeading">收藏文章</h2>
+                </div>
+                <div class="collection-tools">
+                  <div class="search-field compact">
+                    <span class="icon" data-icon="search"></span>
+                    <input id="collectionSearch" type="search" placeholder="搜索文章、答主或标签" />
+                  </div>
+                  <div class="segmented" id="statusFilter" aria-label="文章状态筛选">
+                    <button class="is-active" data-status="all" type="button">全部</button>
+                    <button data-status="seed" type="button">待拆解</button>
+                    <button data-status="planet" type="button">已加入</button>
+                    <button data-status="lit" type="button">已掌握</button>
+                  </div>
+                </div>
+              </div>
+              <div class="article-list" id="articleList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view article-view" id="articleView">
+          <div class="article-topline">
+            <button class="back-button" id="backToWorkspace" type="button">
+              <span class="icon" data-icon="arrow-left"></span>
+              返回收藏拆解
+            </button>
+            <div class="article-top-meta" id="articleTopMeta"></div>
+          </div>
+          <div class="article-layout">
+            <aside class="article-sidebar">
+              <div id="articleIdentity"></div>
+              <nav class="step-nav" id="stepNav" aria-label="文章拆解步骤"></nav>
+              <div class="sidebar-note">
+                <span class="icon" data-icon="sparkles"></span>
+                <p>四步不是阅读清单，而是一条从“作者说了什么”到“我能如何使用”的重建路径。</p>
+              </div>
+            </aside>
+            <article class="analysis-stage" id="analysisStage"></article>
+            <aside class="insight-panel">
+              <div class="insight-head">
+                <span>炼金札记</span>
+                <button class="text-button" id="clearNotes" type="button">清空</button>
+              </div>
+              <div class="notes-list" id="notesList"></div>
+              <form class="note-form" id="noteForm">
+                <textarea
+                  id="noteInput"
+                  rows="3"
+                  placeholder="记录你的疑问、反例或可迁移场景…"
+                ></textarea>
+                <button class="button button-primary button-full" type="submit">
+                  <span class="icon" data-icon="plus"></span>
+                  加入札记
+                </button>
+              </form>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view universe-view" id="universeView" aria-label="炼金宇宙">
+          <canvas id="universeCanvas"></canvas>
+          <div class="universe-atmosphere" aria-hidden="true"></div>
+
+          <div class="universe-hud" id="universeHud">
+            <div class="universe-topbar">
+              <button class="universe-brand" id="universeHome" type="button">
+                <span class="brand-mark small" aria-hidden="true"><span></span></span>
+                <span><strong>炼金宇宙</strong><small>主题是星系，文章是行星</small></span>
+              </button>
+
+              <div class="universe-search-wrap">
+                <div class="universe-search">
+                  <span class="icon" data-icon="search"></span>
+                  <input
+                    id="universeSearch"
+                    type="search"
+                    placeholder="搜索知乎内容，或找到你的星球"
+                    autocomplete="off"
+                  />
+                  <button id="runUniverseSearch" type="button">搜索</button>
+                </div>
+                <div class="universe-mode" id="universeMode">
+                  <button class="is-active" data-mode="zhihu" type="button">知乎内容</button>
+                  <button data-mode="mine" type="button">我的宇宙</button>
+                </div>
+              </div>
+
+              <div class="universe-actions">
+                <span class="universe-counter" id="universeCounter">0 个星系 · 0 颗行星</span>
+                <button class="universe-icon-button" id="resetUniverseCamera" type="button" aria-label="重置视角" title="重置视角">
+                  <span class="icon" data-icon="maximize"></span>
+                </button>
+                <button class="universe-icon-button" id="closeUniverse" type="button" aria-label="返回收藏拆解" title="返回收藏拆解">
+                  <span class="icon" data-icon="x"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="universe-breadcrumb" id="universeBreadcrumb"></div>
+
+            <aside class="universe-legend" id="universeLegend">
+              <span><i class="legend-dot planet"></i>行星</span>
+              <span><i class="legend-dot mastered"></i>已掌握</span>
+              <span><i class="legend-ring"></i>当前主题</span>
+            </aside>
+
+            <aside class="universe-panel" id="universePanel">
+              <div class="panel-heading">
+                <div>
+                  <span class="panel-kicker" id="universePanelKicker">知乎搜索</span>
+                  <h3 id="universePanelTitle">发现可炼化的知识</h3>
+                </div>
+                <button class="icon-button dark" id="closeUniversePanel" type="button" aria-label="关闭面板">
+                  <span class="icon" data-icon="x"></span>
+                </button>
+              </div>
+              <div class="universe-panel-body" id="universePanelBody"></div>
+            </aside>
+
+            <div class="planet-card" id="planetCard" hidden></div>
+            <div class="universe-empty" id="universeEmpty" hidden></div>
+            <div class="universe-loading" id="universeLoading">
+              <span class="loading-seal"><i></i></span>
+              <p>正在点亮你的知识星系…</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="settings-dialog" id="settingsDialog">
+      <form method="dialog" class="settings-card" id="settingsForm">
+        <div class="dialog-head">
+          <div>
+            <span class="section-kicker">炼金配方</span>
+            <h2>让炼知更贴近你</h2>
+          </div>
+          <button class="icon-button" id="closeSettingsButton" type="button" aria-label="关闭设置">
+            <span class="icon" data-icon="x"></span>
+          </button>
+        </div>
+
+        <div class="settings-section">
+          <label>关注领域</label>
+          <div class="choice-wrap" id="interestChoices"></div>
+        </div>
+
+        <div class="settings-grid">
+          <label class="field">
+            <span>当前目标</span>
+            <select id="goalSelect">
+              <option value="建立自己的知识体系">建立自己的知识体系</option>
+              <option value="解决一个具体问题">解决一个具体问题</option>
+              <option value="准备输出与表达">准备输出与表达</option>
+              <option value="长期复习与记忆">长期复习与记忆</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>拆解深度</span>
+            <select id="depthSelect">
+              <option value="quick">快速定位</option>
+              <option value="standard">标准拆解</option>
+              <option value="deep">第一性深挖</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>优先视角</span>
+            <select id="angleSelect">
+              <option value="first-principles">第一性原理</option>
+              <option value="action">行动迁移</option>
+              <option value="debate">反例与争论</option>
+              <option value="connection">跨主题连接</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>宇宙排列</span>
+            <select id="orderSelect">
+              <option value="cluster">按主题星系</option>
+              <option value="mastery">按掌握程度</option>
+              <option value="recent">按最近加入</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="settings-actions">
+          <button class="button button-quiet" id="resetDemo" type="button">恢复演示数据</button>
+          <button class="button button-primary" id="saveSettings" value="default" type="submit">
+            保存配方
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+
+    <script src="vendor/three.min.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+    <script src="universe.js"></script>
+  </body>
+</html>
