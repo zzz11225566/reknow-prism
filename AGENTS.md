@@ -22,6 +22,8 @@
 - A theme is a galaxy. Articles follow the lifecycle `seed -> planet -> lit`.
 - Adding a theme uses a snapshot. New articles are not silently added to an existing snapshot.
 - The decomposition workflow must remain four steps and preserve both first-principles reasoning and ideal-form analysis.
+- Module settings control defaults. Region settings may override them but must never delete the underlying article, theme, or progress data.
+- The fixed compass opens the module guide. The guide, not persistent description text, is the place for operating instructions.
 - Keep the product usable on desktop and narrow mobile screens.
 - Prefer native HTML, CSS, and JavaScript so this version can later be merged with the existing ReKnow prototype.
 

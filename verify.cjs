@@ -9,6 +9,7 @@ var errors = [];
 var scripts = ["data.js", "api.js", "app.js", "universe.js", "server.js"];
 var requiredIds = [
   "workspaceView",
+  "collectionView",
   "articleView",
   "universeView",
   "universeCanvas",
@@ -16,6 +17,12 @@ var requiredIds = [
   "articleList",
   "analysisStage",
   "settingsDialog",
+  "smallSettingsDialog",
+  "themeCreateDialog",
+  "guideDialog",
+  "guideCompass",
+  "navPrevious",
+  "navHome",
 ];
 
 scripts.forEach(function (file) {

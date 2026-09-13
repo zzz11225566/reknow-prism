@@ -50,6 +50,10 @@
       '<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 15H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>',
     "chevron-right":
       '<path d="m9 18 6-6-6-6"/>',
+    "chevron-up":
+      '<path d="m18 15-6-6-6 6"/>',
+    "chevron-down":
+      '<path d="m6 9 6 6 6-6"/>',
     lightbulb:
       '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M8.5 14.5A6 6 0 1 1 16 14c-.9.7-1.5 1.5-1.5 2.5h-5c0-1-.5-1.8-1-2Z"/>',
     link:
@@ -66,6 +70,36 @@
       '<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4"/><path d="m10.5 12.5-4 4"/><path d="m13.5 12.5 4 4"/><path d="M7 17h10"/>',
     signpost:
       '<path d="M12 3v18"/><path d="M5 5h12l2 3-2 3H5Z"/><path d="M19 15H7l-2-3 2-3"/>',
+    home:
+      '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
+    palette:
+      '<path d="M12 3a9 9 0 0 0 0 18h1.5a2 2 0 0 0 0-4H12a2 2 0 0 1 0-4h4a5 5 0 0 0 0-10Z"/><circle cx="7.5" cy="10" r=".8"/><circle cx="10" cy="6.8" r=".8"/><circle cx="14" cy="6.8" r=".8"/><circle cx="16.3" cy="10" r=".8"/>',
+    briefcase:
+      '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M10 12v2h4v-2"/>',
+    coins:
+      '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+    gamepad:
+      '<path d="M7 8h10a5 5 0 0 1 4.4 7.4l-1.1 2a2.4 2.4 0 0 1-4 .3L14.5 16h-5l-1.8 1.7a2.4 2.4 0 0 1-4-.3l-1.1-2A5 5 0 0 1 7 8Z"/><path d="M8 11v3"/><path d="M6.5 12.5h3"/><circle cx="16.5" cy="11.5" r=".7"/><circle cx="18" cy="14" r=".7"/>',
+    "heart-pulse":
+      '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/><path d="M3.5 12h5l1.5-3 2.5 6 1.8-3H20"/>',
+    globe:
+      '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/>',
+    microscope:
+      '<path d="M6 18h12"/><path d="M9 18a6 6 0 0 0 6-6"/><path d="M12 4h5l2 2-7 7-2-2Z"/><path d="m8 12 4 4"/><path d="M4 22h16"/>',
+    music:
+      '<path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/>',
+    camera:
+      '<path d="M14 5h3l2 3h2v11H3V8h2l2-3h3"/><circle cx="12" cy="13" r="4"/>',
+    dumbbell:
+      '<path d="M6 7v10"/><path d="M3 9v6"/><path d="M18 7v10"/><path d="M21 9v6"/><path d="M6 12h12"/>',
+    code:
+      '<path d="m8 9-4 3 4 3"/><path d="m16 9 4 3-4 3"/><path d="m14 5-4 14"/>',
+    plane:
+      '<path d="m21 16-8-3V5a2 2 0 0 0-4 0v8l-6 3v2l6-2v4l-2 2v1l4-1 4 1v-1l-2-2v-4l8 2Z"/>',
+    chef:
+      '<path d="M6 11a4 4 0 1 1 2-7.5A4.5 4.5 0 0 1 12 2a4.5 4.5 0 0 1 4 1.5A4 4 0 1 1 18 11Z"/><path d="M6 11v9h12v-9"/><path d="M9 15h6"/>',
+    utensils:
+      '<path d="M7 2v20"/><path d="M4 2v5a3 3 0 0 0 3 3 3 3 0 0 0 3-3V2"/><path d="M16 2v20"/><path d="M16 2c3 2 4 5 4 8h-4"/>',
   };
 
   function icon(name) {
@@ -114,9 +148,18 @@
   }
 
   function themeOf(id) {
-    return DATA.themes.find(function (theme) {
-      return theme.id === id;
+    var theme = getThemes().find(function (item) {
+      return item.id === id;
     });
+    if (!theme) return null;
+    var override = state.settings.small.themes[id] || {};
+    return Object.assign({}, theme, {
+      color: override.color || theme.color,
+    });
+  }
+
+  function getThemes() {
+    return DATA.themes.concat(state.customThemes || []);
   }
 
   function articleById(id) {
@@ -131,6 +174,132 @@
       .find(function (article) {
         return article.id === id;
       });
+  }
+
+  var STEP_DEFINITIONS = [
+    {
+      id: "surface",
+      title: "定位主张",
+      short: "看懂作者在说什么",
+      icon: "target",
+      label: "表层拆解",
+      intro:
+        "先不急着认同或反对。把结论、事实、隐含假设和依赖条件分开，才知道这篇内容究竟建立在什么之上。",
+    },
+    {
+      id: "first",
+      title: "第一性根基",
+      short: "追问为什么成立",
+      icon: "layers",
+      label: "第一性原理",
+      intro:
+        "去掉术语与经验判断，只保留基本公理，再从公理重新推回结论。能重建的推理，才真正属于你。",
+    },
+    {
+      id: "ideal",
+      title: "理想型与偏差",
+      short: "寻找本质形态",
+      icon: "orbit",
+      label: "柏拉图理想型",
+      intro:
+        "把文章中的方法抽象为理想形态，再比较它和现实之间为什么会偏差。理解边界，比记住答案更重要。",
+    },
+    {
+      id: "transfer",
+      title: "迁移与行动",
+      short: "变成自己的方法",
+      icon: "route",
+      label: "迁移与行动",
+      intro:
+        "最后把知识从文章里拿出来，放回你的工作、学习和决策。只有产生迁移，收藏才算真正完成炼化。",
+    },
+  ];
+
+  var THEME_ICON_OPTIONS = [
+    "book-open",
+    "brain",
+    "briefcase",
+    "coins",
+    "code",
+    "gamepad",
+    "palette",
+    "camera",
+    "music",
+    "heart-pulse",
+    "globe",
+    "microscope",
+    "plane",
+    "dumbbell",
+    "chef",
+    "home",
+  ];
+
+  var THEME_COLOR_OPTIONS = [
+    "#4f73e8",
+    "#149b8b",
+    "#d28a2e",
+    "#c45176",
+    "#6c63c8",
+    "#397a68",
+    "#b35f35",
+    "#3c7d9d",
+    "#8b5fbf",
+    "#7b6b43",
+  ];
+
+  function defaultSettings() {
+    return {
+      modules: {
+        workspace: true,
+        universe: true,
+      },
+      workspace: {
+        defaultDepth: "deep",
+        aiTone: "balanced",
+        intakeMode: "manual",
+        readingDensity: "comfortable",
+        reduceMotion: false,
+        stepOrder: ["surface", "first", "ideal", "transfer"],
+        stepEnabled: {
+          surface: true,
+          first: true,
+          ideal: true,
+          transfer: true,
+        },
+      },
+      universe: {
+        labelMode: "automatic",
+        showLinks: true,
+        showEffects: true,
+        highPerformance: false,
+        sensitivity: "standard",
+      },
+      small: {
+        themes: {},
+        steps: {},
+        galaxies: {},
+      },
+    };
+  }
+
+  function mergeDeep(base, override) {
+    var result = clone(base);
+    Object.keys(override || {}).forEach(function (key) {
+      var value = override[key];
+      if (
+        value &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        result[key] &&
+        typeof result[key] === "object" &&
+        !Array.isArray(result[key])
+      ) {
+        result[key] = mergeDeep(result[key], value);
+      } else {
+        result[key] = clone(value);
+      }
+    });
+    return result;
   }
 
   function getArticles() {
@@ -153,9 +322,11 @@
         mastery: article.mastery,
         completedSteps:
           article.initialStatus === "lit"
-            ? [1, 2, 3, 4]
+            ? STEP_DEFINITIONS.map(function (step) {
+                return step.id;
+              })
             : article.initialStatus === "planet"
-              ? [1, 2]
+              ? ["surface", "first"]
               : [],
         notes: [],
       };
@@ -172,21 +343,27 @@
     });
 
     return {
-      version: 1,
+      version: 2,
       currentView: "workspace",
       selectedTheme: "learning",
       selectedArticle: null,
-      articleStep: 1,
+      articleStep: "surface",
       statusFilter: "all",
       collectionSearch: "",
       lastArticle: "feynman",
       syncedAt: Date.now(),
       articles: articleState,
       importedArticles: {},
+      customThemes: [],
       addedThemes: addedThemes,
       universeItems: universeItems,
       universeMode: "zhihu",
       preferences: clone(DATA.preferences),
+      settings: defaultSettings(),
+      guideSeen: {
+        workspace: false,
+        universe: false,
+      },
     };
   }
 
@@ -194,13 +371,16 @@
     var fallback = createDefaultState();
     try {
       var stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-      if (!stored || stored.version !== 1) return fallback;
+      if (!stored) return fallback;
+      if (stored.version !== 1 && stored.version !== 2) return fallback;
       var merged = Object.assign(fallback, stored);
+      merged.version = 2;
       merged.articles = Object.assign(fallback.articles, stored.articles || {});
       merged.importedArticles = Object.assign(
         fallback.importedArticles,
         stored.importedArticles || {},
       );
+      merged.customThemes = stored.customThemes || [];
       merged.universeItems = Object.assign(
         fallback.universeItems,
         stored.universeItems || {},
@@ -209,6 +389,23 @@
         fallback.preferences,
         stored.preferences || {},
       );
+      merged.settings = mergeDeep(fallback.settings, stored.settings || {});
+      merged.guideSeen = Object.assign(
+        fallback.guideSeen,
+        stored.guideSeen || {},
+      );
+      if (typeof merged.articleStep === "number") {
+        merged.articleStep =
+          (STEP_DEFINITIONS[merged.articleStep - 1] || STEP_DEFINITIONS[0]).id;
+      }
+      Object.keys(merged.articles).forEach(function (id) {
+        var articleState = merged.articles[id];
+        if (!articleState || !Array.isArray(articleState.completedSteps)) return;
+        articleState.completedSteps = articleState.completedSteps.map(function (step) {
+          if (typeof step === "string") return step;
+          return (STEP_DEFINITIONS[step - 1] || STEP_DEFINITIONS[0]).id;
+        });
+      });
       return merged;
     } catch (error) {
       return fallback;
@@ -236,6 +433,40 @@
       };
     }
     return state.articles[id];
+  }
+
+  function stepById(id) {
+    return STEP_DEFINITIONS.find(function (step) {
+      return step.id === id;
+    });
+  }
+
+  function enabledStepIds() {
+    var workspace = state.settings.workspace;
+    var order = workspace.stepOrder.filter(function (id) {
+      return STEP_DEFINITIONS.some(function (step) {
+        return step.id === id;
+      });
+    });
+    STEP_DEFINITIONS.forEach(function (step) {
+      if (order.indexOf(step.id) === -1) order.push(step.id);
+    });
+    var enabled = order.filter(function (id) {
+      return workspace.stepEnabled[id] !== false;
+    });
+    return enabled.length ? enabled : [order[0] || "surface"];
+  }
+
+  function stepNumber(id) {
+    var index = enabledStepIds().indexOf(id);
+    return index === -1 ? 1 : index + 1;
+  }
+
+  function completedRequiredSteps(articleState) {
+    var required = enabledStepIds();
+    return required.every(function (id) {
+      return articleState.completedSteps.indexOf(id) !== -1;
+    });
   }
 
   function statusLabel(status) {
@@ -293,14 +524,36 @@
     }, 2800);
   }
 
+  var navigationStack = [];
+  var restoringNavigation = false;
+  var themeCreateSelection = {
+    icon: "book-open",
+    color: THEME_COLOR_OPTIONS[0],
+  };
+  var smallSettingsContext = null;
+  var settingsContext = "workspace";
+
   function setView(view, options) {
     var next = options || {};
+    if (!restoringNavigation && state.currentView !== view) {
+      navigationStack.push({
+        view: state.currentView,
+        selectedTheme: state.selectedTheme,
+        selectedArticle: state.selectedArticle,
+        articleStep: state.articleStep,
+      });
+      if (navigationStack.length > 30) navigationStack.shift();
+    }
     state.currentView = view;
 
     $("workspaceView").classList.toggle("is-active", view === "workspace");
+    $("collectionView").classList.toggle("is-active", view === "collection");
     $("articleView").classList.toggle("is-active", view === "article");
     $("universeView").classList.toggle("is-active", view === "universe");
-    $("viewWorkspace").classList.toggle("is-active", view === "workspace" || view === "article");
+    $("viewWorkspace").classList.toggle(
+      "is-active",
+      view === "workspace" || view === "collection" || view === "article",
+    );
     $("viewUniverse").classList.toggle("is-active", view === "universe");
     document.body.classList.toggle("is-universe-open", view === "universe");
     $("appShell").classList.toggle("is-universe", view === "universe");
@@ -308,6 +561,11 @@
     if (view === "universe") {
       if (window.RK_UNIVERSE && window.RK_UNIVERSE.enter) {
         window.RK_UNIVERSE.enter();
+      }
+      if (!state.guideSeen.universe) {
+        setTimeout(function () {
+          openGuide("universe");
+        }, 500);
       }
     } else if (window.RK_UNIVERSE && window.RK_UNIVERSE.exit) {
       window.RK_UNIVERSE.exit();
@@ -317,8 +575,42 @@
     }
 
     if (view === "workspace") renderWorkspace();
-    if (view === "article") renderArticle(options && options.step);
+    if (view === "collection") renderArticleList();
+    if (view === "article") renderArticle(next.step);
+    updateNavigationDock();
     saveState();
+  }
+
+  function currentModule() {
+    return state.currentView === "universe" ? "universe" : "workspace";
+  }
+
+  function updateNavigationDock() {
+    $("navPrevious").classList.toggle("is-disabled", navigationStack.length === 0);
+    $("viewWorkspace").hidden = !state.settings.modules.workspace;
+    $("viewUniverse").hidden = !state.settings.modules.universe;
+  }
+
+  function goBack() {
+    if (!navigationStack.length) return;
+    var previous = navigationStack.pop();
+    restoringNavigation = true;
+    state.selectedTheme = previous.selectedTheme;
+    state.selectedArticle = previous.selectedArticle;
+    state.articleStep = previous.articleStep;
+    setView(previous.view, { step: previous.articleStep });
+    restoringNavigation = false;
+  }
+
+  function goHome() {
+    if (state.settings.modules.workspace) {
+      setView("workspace");
+    } else if (state.settings.modules.universe) {
+      setView("universe");
+    } else {
+      state.settings.modules.workspace = true;
+      setView("workspace");
+    }
   }
 
   function renderStats() {
@@ -328,12 +620,6 @@
       countByTheme[article.themeId] = (countByTheme[article.themeId] || 0) + 1;
     });
 
-    $("metricThemes").textContent = String(DATA.themes.length);
-    $("metricPlanets").textContent = String(info.planets);
-    $("metricMastered").textContent = String(info.mastered);
-    $("metricMasteredHint").textContent = info.mastered
-      ? "已形成稳定知识链"
-      : "继续炼化收藏";
     $("levelLabel").textContent = info.name;
     $("levelBar").style.width = info.progress + "%";
     $("syncTime").textContent = formatRelativeTime(state.syncedAt);
@@ -357,7 +643,20 @@
 
   function renderThemes(countByTheme) {
     var counts = countByTheme || {};
-    $("themeGrid").innerHTML = DATA.themes
+    var themes = getThemes()
+      .filter(function (theme) {
+        var small = state.settings.small.themes[theme.id] || {};
+        return small.visible !== false;
+      })
+      .slice()
+      .sort(function (a, b) {
+        var aOrder = (state.settings.small.themes[a.id] || {}).order;
+        var bOrder = (state.settings.small.themes[b.id] || {}).order;
+        var aValue = Number.isFinite(aOrder) ? aOrder : getThemes().indexOf(a);
+        var bValue = Number.isFinite(bOrder) ? bOrder : getThemes().indexOf(b);
+        return aValue - bValue;
+      });
+    $("themeGrid").innerHTML = themes
       .map(function (theme) {
         var articles = getArticles().filter(function (article) {
           return article.themeId === theme.id;
@@ -378,11 +677,18 @@
           '<span class="theme-symbol">' +
           icon(themeIcon(theme.id)) +
           "</span>" +
+          '<div style="display:flex;align-items:center;gap:6px">' +
           '<span class="theme-status' +
           (added ? " is-added" : "") +
           '">' +
           (added ? "已加入宇宙" : "未加入宇宙") +
           "</span>" +
+          '<button class="theme-card-menu" data-theme-settings="' +
+          theme.id +
+          '" type="button" aria-label="主题小设置" title="主题小设置">' +
+          icon("settings") +
+          "</button>" +
+          "</div>" +
           "</div>" +
           "<h3>" +
           escapeHtml(theme.name) +
@@ -392,7 +698,7 @@
           "</p>" +
           '<div class="theme-card-foot">' +
           "<span><strong>" +
-          counts[theme.id] +
+          (counts[theme.id] || 0) +
           "</strong> 篇收藏 · " +
           mastered +
           " 篇掌握</span>" +
@@ -411,6 +717,10 @@
   }
 
   function themeIcon(themeId) {
+    var theme = getThemes().find(function (item) {
+      return item.id === themeId;
+    });
+    if (theme && theme.icon) return theme.icon;
     return {
       learning: "book-open",
       ai: "brain",
@@ -451,8 +761,17 @@
     $("collectionHeading").textContent = theme ? theme.name + " · 收藏文章" : "收藏文章";
 
     if (!rows.length) {
+      var hasAnyRows = getArticles().some(function (article) {
+        return article.themeId === state.selectedTheme;
+      });
       $("articleList").innerHTML =
-        '<div class="empty-state"><div><strong>没有匹配的文章</strong><span>换一个状态或关键词试试。</span></div></div>';
+        '<div class="empty-state"><div><strong>' +
+        (hasAnyRows ? "没有匹配的文章" : "这个类别还没有文章") +
+        "</strong><span>" +
+        (hasAnyRows
+          ? "换一个状态或关键词试试。"
+          : "类别数据已经保留，后续同步或加入收藏后会显示在这里。") +
+        "</span></div></div>";
       return;
     }
 
@@ -529,44 +848,11 @@
   function renderWorkspace() {
     var counts = renderStats();
     renderThemes(counts);
-    renderArticleList();
+    updateNavigationDock();
   }
 
-  function getStepMeta(step) {
-    return [
-      {
-        title: "定位主张",
-        short: "看懂作者在说什么",
-        icon: "target",
-        label: "STEP 01 · 表层拆解",
-        intro:
-          "先不急着认同或反对。把结论、事实、隐含假设和依赖条件分开，才知道这篇内容究竟建立在什么之上。",
-      },
-      {
-        title: "第一性根基",
-        short: "追问为什么成立",
-        icon: "layers",
-        label: "STEP 02 · FIRST PRINCIPLES",
-        intro:
-          "去掉术语与经验判断，只保留基本公理，再从公理重新推回结论。能重建的推理，才真正属于你。",
-      },
-      {
-        title: "理想型与偏差",
-        short: "寻找本质形态",
-        icon: "orbit",
-        label: "STEP 03 · IDEAL FORM",
-        intro:
-          "把文章中的方法抽象为理想形态，再比较它和现实之间为什么会偏差。理解边界，比记住答案更重要。",
-      },
-      {
-        title: "迁移与行动",
-        short: "变成自己的方法",
-        icon: "route",
-        label: "STEP 04 · TRANSFER",
-        intro:
-          "最后把知识从文章里拿出来，放回你的工作、学习和决策。只有产生迁移，收藏才算真正完成炼化。",
-      },
-    ][step - 1];
+  function getStepMeta(stepId) {
+    return stepById(stepId) || STEP_DEFINITIONS[0];
   }
 
   function renderArticleIdentity(article, articleState) {
@@ -599,25 +885,27 @@
       icon("clock") +
       " " +
       escapeHtml(String(articleState.completedSteps.length)) +
-      " / 4 步已拆 · " +
+      " / " +
+      escapeHtml(String(enabledStepIds().length)) +
+      " 步已拆 · " +
       escapeHtml(String(articleState.mastery)) +
       "% 掌握度";
   }
 
   function renderStepNav(article, articleState) {
-    $("stepNav").innerHTML = [1, 2, 3, 4]
-      .map(function (step) {
-        var meta = getStepMeta(step);
-        var done = articleState.completedSteps.indexOf(step) !== -1;
+    $("stepNav").innerHTML = enabledStepIds()
+      .map(function (stepId, index) {
+        var meta = getStepMeta(stepId);
+        var done = articleState.completedSteps.indexOf(stepId) !== -1;
         return (
           '<button class="step-button' +
-          (state.articleStep === step ? " is-active" : "") +
+          (state.articleStep === stepId ? " is-active" : "") +
           (done ? " is-done" : "") +
           '" type="button" data-article-step="' +
-          step +
+          stepId +
           '">' +
           '<span class="step-index">' +
-          (done ? icon("check") : String(step).padStart(2, "0")) +
+          (done ? icon("check") : String(index + 1).padStart(2, "0")) +
           "</span>" +
           '<span class="step-copy"><strong>' +
           escapeHtml(meta.title) +
@@ -644,7 +932,7 @@
     var meta = getStepMeta(state.articleStep);
     var content = "";
 
-    if (state.articleStep === 1) {
+    if (state.articleStep === "surface") {
       content =
         '<div class="analysis-grid">' +
         '<section class="analysis-card is-wide"><h3>' +
@@ -674,7 +962,7 @@
         "</div>";
     }
 
-    if (state.articleStep === 2) {
+    if (state.articleStep === "first") {
       content =
         '<div class="analysis-grid">' +
         '<section class="analysis-card is-wide"><h3>' +
@@ -699,7 +987,7 @@
         "</div>";
     }
 
-    if (state.articleStep === 3) {
+    if (state.articleStep === "ideal") {
       content =
         '<div class="analysis-grid">' +
         '<section class="analysis-card"><h3>' +
@@ -725,7 +1013,7 @@
         "</div>";
     }
 
-    if (state.articleStep === 4) {
+    if (state.articleStep === "transfer") {
       content =
         '<div class="analysis-grid">' +
         '<section class="analysis-card is-wide"><h3>' +
@@ -747,7 +1035,9 @@
 
     var footer = "";
     var complete = articleState.completedSteps.indexOf(state.articleStep) !== -1;
-    if (state.articleStep < 4) {
+    var enabledSteps = enabledStepIds();
+    var currentStepIndex = enabledSteps.indexOf(state.articleStep);
+    if (currentStepIndex < enabledSteps.length - 1) {
       footer =
         '<button class="button ' +
         (complete ? "button-quiet" : "button-primary") +
@@ -791,7 +1081,11 @@
       '<header class="stage-heading" style="--theme-color:' +
       themeOf(article.themeId).color +
       '">' +
+      '<div class="stage-heading-row"><div>' +
       '<span class="stage-label">' +
+      "STEP " +
+      String(currentStepIndex + 1).padStart(2, "0") +
+      " · " +
       escapeHtml(meta.label) +
       "</span>" +
       "<h1>" +
@@ -800,6 +1094,11 @@
       "<p>" +
       escapeHtml(meta.intro) +
       "</p>" +
+      "</div>" +
+      '<button class="region-settings-button" data-action="open-step-settings" type="button">' +
+      icon("settings") +
+      "步骤小设置" +
+      "</button></div>" +
       "</header>" +
       content +
       '<footer class="stage-footer">' +
@@ -835,8 +1134,11 @@
       setView("workspace");
       return;
     }
-    if (stepOverride) {
-      state.articleStep = Math.max(1, Math.min(4, Number(stepOverride)));
+    if (stepOverride && stepById(stepOverride) && enabledStepIds().indexOf(stepOverride) !== -1) {
+      state.articleStep = stepOverride;
+    }
+    if (enabledStepIds().indexOf(state.articleStep) === -1) {
+      state.articleStep = enabledStepIds()[0];
     }
     var articleState = getArticleState(article.id);
     renderArticleIdentity(article, articleState);
@@ -853,18 +1155,91 @@
     state.lastArticle = id;
     state.selectedTheme = article.themeId;
     var articleState = getArticleState(id);
-    state.articleStep =
-      articleState.completedSteps.length < 4
-        ? Math.min(4, articleState.completedSteps.length + 1)
-        : 4;
+    var steps = enabledStepIds();
+    var nextStep = steps.find(function (stepId) {
+      return articleState.completedSteps.indexOf(stepId) === -1;
+    });
+    state.articleStep = nextStep || steps[steps.length - 1];
     setView("article");
   }
 
   function selectTheme(themeId) {
     if (!themeOf(themeId)) return;
     state.selectedTheme = themeId;
+    setView("collection");
+  }
+
+  function openThemeCreate() {
+    $("themeNameInput").value = "";
+    themeCreateSelection = {
+      icon: "book-open",
+      color: THEME_COLOR_OPTIONS[0],
+    };
+    renderThemeCreateChoices();
+    $("themeCreateDialog").showModal();
+    document.body.classList.add("is-dialog-open");
+  }
+
+  function renderThemeCreateChoices() {
+    $("themeIconChoices").innerHTML = THEME_ICON_OPTIONS.map(function (name) {
+      return (
+        '<button class="icon-choice' +
+        (themeCreateSelection.icon === name ? " is-active" : "") +
+        '" data-theme-icon="' +
+        name +
+        '" type="button" title="' +
+        name +
+        '">' +
+        icon(name) +
+        "</button>"
+      );
+    }).join("");
+    $("themeColorChoices").innerHTML = THEME_COLOR_OPTIONS.map(function (color) {
+      return (
+        '<button class="color-choice' +
+        (themeCreateSelection.color === color ? " is-active" : "") +
+        '" data-theme-color="' +
+        color +
+        '" style="--choice-color:' +
+        color +
+        '" type="button" aria-label="选择颜色 ' +
+        color +
+        '"></button>'
+      );
+    }).join("");
+  }
+
+  function createCustomTheme() {
+    var name = $("themeNameInput").value.trim();
+    if (!name) {
+      showToast("请先输入类别名称", "warning");
+      return;
+    }
+    var id =
+      "custom-" +
+      Date.now().toString(36) +
+      Math.floor(Math.random() * 1000).toString(36);
+    state.customThemes.push({
+      id: id,
+      name: name,
+      description: "自定义知识领域",
+      color: themeCreateSelection.color,
+      soft: "rgba(79,115,232,.12)",
+      keywords: [name],
+      icon: themeCreateSelection.icon,
+      custom: true,
+    });
+    state.settings.small.themes[id] = {
+      color: themeCreateSelection.color,
+      order: getThemes().length - 1,
+      visible: true,
+    };
+    state.selectedTheme = id;
+    $("themeCreateDialog").close();
+    document.body.classList.remove("is-dialog-open");
     renderWorkspace();
     saveState();
+    showToast("已创建类别“" + name + "”", "success");
   }
 
   function addThemeToUniverse(themeId) {
@@ -906,16 +1281,25 @@
     var articleState = getArticleState(state.selectedArticle);
     if (articleState.completedSteps.indexOf(state.articleStep) === -1) {
       articleState.completedSteps.push(state.articleStep);
-      articleState.mastery = Math.max(articleState.mastery, state.articleStep * 18);
+      articleState.mastery = Math.max(
+        articleState.mastery,
+        stepNumber(state.articleStep) * 18,
+      );
     }
-    state.articleStep = Math.min(4, state.articleStep + 1);
+    var steps = enabledStepIds();
+    var index = steps.indexOf(state.articleStep);
+    state.articleStep = steps[Math.min(steps.length - 1, index + 1)];
     renderArticle();
     saveState();
   }
 
   function finishAnalysis() {
     var articleState = getArticleState(state.selectedArticle);
-    articleState.completedSteps = [1, 2, 3, 4];
+    enabledStepIds().forEach(function (stepId) {
+      if (articleState.completedSteps.indexOf(stepId) === -1) {
+        articleState.completedSteps.push(stepId);
+      }
+    });
     articleState.status = "planet";
     articleState.mastery = Math.max(articleState.mastery, 62);
     showToast("拆解完成，文章已经形成行星", "success");
@@ -927,7 +1311,11 @@
     var articleState = getArticleState(state.selectedArticle);
     articleState.status = "lit";
     articleState.mastery = Math.max(articleState.mastery, 88);
-    articleState.completedSteps = [1, 2, 3, 4];
+    enabledStepIds().forEach(function (stepId) {
+      if (articleState.completedSteps.indexOf(stepId) === -1) {
+        articleState.completedSteps.push(stepId);
+      }
+    });
     showToast("这颗行星已经点亮，并纳入长期知识链", "success");
     renderArticle();
     renderWorkspace();
@@ -941,29 +1329,111 @@
     }
   }
 
-  function renderSettings() {
-    $("interestChoices").innerHTML = DATA.themes
-      .map(function (theme) {
-        var active = state.preferences.interests.indexOf(theme.name) !== -1;
+  function moduleToggleHtml(key, title, description) {
+    return (
+      '<div class="toggle-row"><span class="toggle-copy"><strong>' +
+      escapeHtml(title) +
+      "</strong><small>" +
+      escapeHtml(description) +
+      '</small></span><label class="switch"><input type="checkbox" data-module-toggle="' +
+      key +
+      '"' +
+      (state.settings.modules[key] ? " checked" : "") +
+      '><span></span></label></div>'
+    );
+  }
+
+  function stepOrderHtml() {
+    var order = state.settings.workspace.stepOrder.slice();
+    STEP_DEFINITIONS.forEach(function (step) {
+      if (order.indexOf(step.id) === -1) order.push(step.id);
+    });
+    return order
+      .map(function (stepId, index) {
+        var step = getStepMeta(stepId);
+        var enabled = state.settings.workspace.stepEnabled[stepId] !== false;
         return (
-          '<button class="choice-chip' +
-          (active ? " is-active" : "") +
-          '" data-interest="' +
-          escapeHtml(theme.name) +
-          '" type="button">' +
-          escapeHtml(theme.name) +
-          "</button>"
+          '<div class="step-order-item' +
+          (enabled ? "" : " is-disabled") +
+          '">' +
+          '<span class="step-index">' +
+          String(index + 1).padStart(2, "0") +
+          "</span>" +
+          "<strong>" +
+          escapeHtml(step.title) +
+          "</strong>" +
+          '<div class="step-order-actions">' +
+          '<button data-step-move="up" data-step-id="' +
+          stepId +
+          '" type="button" title="上移">' +
+          icon("chevron-up") +
+          "</button>" +
+          '<button data-step-move="down" data-step-id="' +
+          stepId +
+          '" type="button" title="下移">' +
+          icon("chevron-down") +
+          "</button>" +
+          '<label class="switch"><input type="checkbox" data-step-enabled="' +
+          stepId +
+          '"' +
+          (enabled ? " checked" : "") +
+          '><span></span></label>' +
+          "</div>" +
+          "</div>"
         );
       })
       .join("");
-    $("goalSelect").value = state.preferences.goal;
-    $("depthSelect").value = state.preferences.depth;
-    $("angleSelect").value = state.preferences.angle;
-    $("orderSelect").value = state.preferences.universeOrder;
   }
 
-  function openSettings() {
-    renderSettings();
+  function openSettings(context) {
+    settingsContext = context;
+    $("settingsKicker").textContent = "中心设置";
+    $("settingsTitle").textContent =
+      context === "universe" ? "炼金宇宙" : "收藏拆解";
+    $("centerSettingsBody").innerHTML =
+      '<section class="settings-block"><div class="settings-block-title"><div><h3>模块开关</h3><p>关闭只隐藏入口，文章、进度、颜色和宇宙位置都会保留。</p></div></div>' +
+      moduleToggleHtml("workspace", "收藏拆解", "主题归类、文章拆解与学习流程") +
+      moduleToggleHtml("universe", "炼金宇宙", "主题星系、行星与知乎搜索") +
+      "</section>" +
+      (context === "universe"
+        ? '<section class="settings-block"><div class="settings-block-title"><div><h3>宇宙默认设置</h3><p>单个星系和行星仍可在区域小设置中覆盖。</p></div></div>' +
+          '<div class="settings-grid">' +
+          '<label class="field"><span>文章名显示</span><select id="universeLabelSelect"><option value="automatic">缩放到比例后显示</option><option value="always">始终显示</option></select></label>' +
+          '<label class="field"><span>视角灵敏度</span><select id="universeSensitivitySelect"><option value="gentle">舒缓</option><option value="standard">标准</option><option value="quick">灵敏</option></select></label>' +
+          "</div>" +
+          '<div style="margin-top:12px">' +
+          '<div class="toggle-row"><span class="toggle-copy"><strong>关系链</strong><small>显示文章之间的知识连接</small></span><label class="switch"><input id="universeLinksToggle" type="checkbox"' +
+          (state.settings.universe.showLinks ? " checked" : "") +
+          "><span></span></label></div>" +
+          '<div class="toggle-row"><span class="toggle-copy"><strong>沉浸效果</strong><small>星尘、光晕和轨道运动</small></span><label class="switch"><input id="universeEffectsToggle" type="checkbox"' +
+          (state.settings.universe.showEffects ? " checked" : "") +
+          "><span></span></label></div>" +
+          '<div class="toggle-row"><span class="toggle-copy"><strong>高性能模式</strong><small>减少粒子和距离计算</small></span><label class="switch"><input id="universePerformanceToggle" type="checkbox"' +
+          (state.settings.universe.highPerformance ? " checked" : "") +
+          "><span></span></label></div>" +
+          "</div></section>"
+        : '<section class="settings-block"><div class="settings-block-title"><div><h3>四步学习流程</h3><p>可以关闭不使用的步骤并调整先后顺序，数据不会删除。</p></div></div><div class="step-order-list">' +
+          stepOrderHtml() +
+          "</div></section>" +
+          '<section class="settings-block"><div class="settings-block-title"><div><h3>学习默认值</h3><p>单篇文章和单个步骤可在区域小设置中临时覆盖。</p></div></div>' +
+          '<div class="settings-grid">' +
+          '<label class="field"><span>默认拆解深度</span><select id="workspaceDepthSelect"><option value="quick">快速定位</option><option value="standard">标准拆解</option><option value="deep">第一性深挖</option></select></label>' +
+          '<label class="field"><span>AI 默认语气</span><select id="workspaceAiSelect"><option value="explain">解释型</option><option value="balanced">平衡型</option><option value="challenge">追问型</option><option value="counter">反例型</option></select></label>' +
+          '<label class="field"><span>收藏进入方式</span><select id="workspaceIntakeSelect"><option value="manual">手动挑选</option><option value="assisted">AI 粗筛后确认</option><option value="automatic">自动进入待拆解</option></select></label>' +
+          '<label class="field"><span>阅读密度</span><select id="workspaceDensitySelect"><option value="compact">紧凑</option><option value="comfortable">舒适</option><option value="spacious">宽松</option></select></label>' +
+          '</div><div class="toggle-row"><span class="toggle-copy"><strong>减少动效</strong><small>降低页面动画和过渡</small></span><label class="switch"><input id="workspaceMotionToggle" type="checkbox"' +
+          (state.settings.workspace.reduceMotion ? " checked" : "") +
+          "><span></span></label></div></section>");
+
+    if (context === "universe") {
+      $("universeLabelSelect").value = state.settings.universe.labelMode;
+      $("universeSensitivitySelect").value = state.settings.universe.sensitivity;
+    } else {
+      $("workspaceDepthSelect").value = state.settings.workspace.defaultDepth;
+      $("workspaceAiSelect").value = state.settings.workspace.aiTone;
+      $("workspaceIntakeSelect").value = state.settings.workspace.intakeMode;
+      $("workspaceDensitySelect").value = state.settings.workspace.readingDensity;
+    }
     $("settingsDialog").showModal();
     document.body.classList.add("is-dialog-open");
   }
@@ -972,16 +1442,320 @@
     document.body.classList.remove("is-dialog-open");
   }
 
-  function savePreferences() {
-    state.preferences.goal = $("goalSelect").value;
-    state.preferences.depth = $("depthSelect").value;
-    state.preferences.angle = $("angleSelect").value;
-    state.preferences.universeOrder = $("orderSelect").value;
+  function saveCenterSettings() {
+    var body = $("centerSettingsBody");
+    body.querySelectorAll("[data-module-toggle]").forEach(function (input) {
+      state.settings.modules[input.getAttribute("data-module-toggle")] = input.checked;
+    });
+    if (!state.settings.modules.workspace && !state.settings.modules.universe) {
+      state.settings.modules.workspace = true;
+      showToast("至少需要保留一个模块，已自动启用收藏拆解", "warning");
+    }
+    if (settingsContext === "universe") {
+      state.settings.universe.labelMode = $("universeLabelSelect").value;
+      state.settings.universe.sensitivity = $("universeSensitivitySelect").value;
+      state.settings.universe.showLinks = $("universeLinksToggle").checked;
+      state.settings.universe.showEffects = $("universeEffectsToggle").checked;
+      state.settings.universe.highPerformance =
+        $("universePerformanceToggle").checked;
+    } else {
+      state.settings.workspace.defaultDepth = $("workspaceDepthSelect").value;
+      state.settings.workspace.aiTone = $("workspaceAiSelect").value;
+      state.settings.workspace.intakeMode = $("workspaceIntakeSelect").value;
+      state.settings.workspace.readingDensity =
+        $("workspaceDensitySelect").value;
+      state.settings.workspace.reduceMotion = $("workspaceMotionToggle").checked;
+    }
+    document.documentElement.classList.toggle(
+      "reduce-motion",
+      state.settings.workspace.reduceMotion,
+    );
+    if (
+      !state.settings.modules.workspace &&
+      (state.currentView === "workspace" ||
+        state.currentView === "collection" ||
+        state.currentView === "article")
+    ) {
+      goHome();
+    }
+    if (!state.settings.modules.universe && state.currentView === "universe") {
+      goHome();
+    }
+    renderWorkspace();
     saveState();
     if (window.RK_UNIVERSE && window.RK_UNIVERSE.refresh) {
       window.RK_UNIVERSE.refresh();
     }
-    showToast("炼金配方已保存", "success");
+    updateNavigationDock();
+    showToast("中心设置已保存，原有数据保持不变", "success");
+  }
+
+  function openSmallSettings(context) {
+    smallSettingsContext = context;
+    var title = "当前区域";
+    var html = "";
+    if (context.type === "theme") {
+      var theme = themeOf(context.id);
+      var themeSmall = state.settings.small.themes[context.id] || {};
+      title = theme.name + " · 主题设置";
+      html =
+        '<section class="settings-block"><div class="settings-block-title"><div><h3>显示与顺序</h3><p>只影响这个主题卡片，中心设置仍保持默认。</p></div></div>' +
+        '<div class="toggle-row"><span class="toggle-copy"><strong>在归类页显示</strong><small>关闭后数据仍保留，可在小设置里重新开启</small></span><label class="switch"><input id="smallThemeVisible" type="checkbox"' +
+        (themeSmall.visible !== false ? " checked" : "") +
+        "><span></span></label></div>" +
+        '<label class="field" style="margin-top:10px"><span>显示顺序</span><input id="smallThemeOrder" type="number" min="0" max="99" value="' +
+        (Number.isFinite(themeSmall.order)
+          ? themeSmall.order
+          : getThemes().indexOf(theme)) +
+        '"></label></section>' +
+        '<section class="settings-block"><div class="settings-block-title"><div><h3>主题色</h3><p>只改变这个主题的视觉识别色。</p></div></div><div class="color-radio-grid">' +
+        '<label class="color-radio"><input type="radio" name="smallThemeColor" value=""' +
+        (!themeSmall.color ? " checked" : "") +
+        '><span class="color-radio-swatch" style="--choice-color:' +
+        theme.color +
+        '"></span><small>继承</small></label>' +
+        THEME_COLOR_OPTIONS.map(function (color) {
+          return (
+            '<label class="color-radio"><input type="radio" name="smallThemeColor" value="' +
+            color +
+            '"' +
+            (themeSmall.color === color ? " checked" : "") +
+            '><span class="color-radio-swatch" style="--choice-color:' +
+            color +
+            '"></span><small>' +
+            color.replace("#", "").toUpperCase() +
+            "</small></label>"
+          );
+        }).join("") +
+        "</div></section>";
+    }
+    if (context.type === "step") {
+      var step = getStepMeta(context.id);
+      var stepSmall = state.settings.small.steps[context.id] || {};
+      title = step.title + " · 步骤设置";
+      html =
+        '<section class="settings-block"><div class="settings-block-title"><div><h3>单步骤覆盖</h3><p>这里的选择优先于中心设置，只作用于这个步骤。</p></div></div>' +
+        '<div class="settings-grid"><label class="field"><span>内容深度</span><select id="smallStepDepth"><option value="">继承中心设置</option><option value="quick">精简</option><option value="standard">标准</option><option value="deep">深入</option></select></label>' +
+        '<label class="field"><span>AI 语气</span><select id="smallStepTone"><option value="">继承中心设置</option><option value="explain">解释型</option><option value="balanced">平衡型</option><option value="challenge">追问型</option><option value="counter">反例型</option></select></label></div></section>';
+    }
+    if (context.type === "galaxy") {
+      var galaxy = themeOf(context.id);
+      var galaxySmall = state.settings.small.galaxies[context.id] || {};
+      title = galaxy.name + " · 星系设置";
+      html =
+        '<section class="settings-block"><div class="settings-block-title"><div><h3>星系局部设置</h3><p>只覆盖这个星系，关闭再打开后仍会保留。</p></div></div>' +
+        '<div class="settings-grid"><label class="field"><span>公转速度</span><select id="smallGalaxySpeed"><option value="">继承中心设置</option><option value="slow">舒缓</option><option value="standard">标准</option><option value="fast">明显</option></select></label>' +
+        '<label class="field"><span>文章名显示</span><select id="smallGalaxyLabels"><option value="">继承中心设置</option><option value="near">更近时显示</option><option value="standard">达到比例显示</option><option value="early">较早显示</option></select></label></div></section>' +
+        '<section class="settings-block"><div class="settings-block-title"><div><h3>星系色彩</h3></div></div><div class="color-radio-grid">' +
+        '<label class="color-radio"><input type="radio" name="smallGalaxyColor" value=""' +
+        (!galaxySmall.color ? " checked" : "") +
+        '><span class="color-radio-swatch" style="--choice-color:' +
+        galaxy.color +
+        '"></span><small>继承</small></label>' +
+        THEME_COLOR_OPTIONS.map(function (color) {
+          return (
+            '<label class="color-radio"><input type="radio" name="smallGalaxyColor" value="' +
+            color +
+            '"' +
+            (galaxySmall.color === color ? " checked" : "") +
+            '><span class="color-radio-swatch" style="--choice-color:' +
+            color +
+            '"></span><small>' +
+            color.replace("#", "").toUpperCase() +
+            "</small></label>"
+          );
+        }).join("") +
+        "</div></section>";
+    }
+    $("smallSettingsTitle").textContent = title;
+    $("smallSettingsBody").innerHTML = html;
+    if (context.type === "step") {
+      $("smallStepDepth").value =
+        (state.settings.small.steps[context.id] || {}).depth || "";
+      $("smallStepTone").value =
+        (state.settings.small.steps[context.id] || {}).tone || "";
+    }
+    if (context.type === "galaxy") {
+      $("smallGalaxySpeed").value =
+        (state.settings.small.galaxies[context.id] || {}).orbitSpeed || "";
+      $("smallGalaxyLabels").value =
+        (state.settings.small.galaxies[context.id] || {}).labelMode || "";
+    }
+    $("smallSettingsDialog").showModal();
+    document.body.classList.add("is-dialog-open");
+  }
+
+  function saveSmallSettings() {
+    if (!smallSettingsContext) return;
+    var context = smallSettingsContext;
+    if (context.type === "theme") {
+      var themeOverride =
+        state.settings.small.themes[context.id] || {};
+      themeOverride.visible = $("smallThemeVisible").checked;
+      themeOverride.order = Number($("smallThemeOrder").value) || 0;
+      var selectedThemeColor = document.querySelector(
+        'input[name="smallThemeColor"]:checked',
+      );
+      if (selectedThemeColor && selectedThemeColor.value) {
+        themeOverride.color = selectedThemeColor.value;
+      } else {
+        delete themeOverride.color;
+      }
+      state.settings.small.themes[context.id] = themeOverride;
+    }
+    if (context.type === "step") {
+      var stepOverride = state.settings.small.steps[context.id] || {};
+      stepOverride.depth = $("smallStepDepth").value || undefined;
+      stepOverride.tone = $("smallStepTone").value || undefined;
+      state.settings.small.steps[context.id] = stepOverride;
+    }
+    if (context.type === "galaxy") {
+      var galaxyOverride =
+        state.settings.small.galaxies[context.id] || {};
+      galaxyOverride.orbitSpeed = $("smallGalaxySpeed").value || undefined;
+      galaxyOverride.labelMode = $("smallGalaxyLabels").value || undefined;
+      var selectedGalaxyColor = document.querySelector(
+        'input[name="smallGalaxyColor"]:checked',
+      );
+      if (selectedGalaxyColor && selectedGalaxyColor.value) {
+        galaxyOverride.color = selectedGalaxyColor.value;
+      } else {
+        delete galaxyOverride.color;
+      }
+      state.settings.small.galaxies[context.id] = galaxyOverride;
+    }
+    renderWorkspace();
+    saveState();
+    if (window.RK_UNIVERSE && window.RK_UNIVERSE.refresh) {
+      window.RK_UNIVERSE.refresh();
+    }
+    showToast("区域设置已应用", "success");
+  }
+
+  function resetSmallSettings() {
+    if (!smallSettingsContext) return;
+    if (smallSettingsContext.type === "theme") {
+      delete state.settings.small.themes[smallSettingsContext.id];
+    }
+    if (smallSettingsContext.type === "step") {
+      delete state.settings.small.steps[smallSettingsContext.id];
+    }
+    if (smallSettingsContext.type === "galaxy") {
+      delete state.settings.small.galaxies[smallSettingsContext.id];
+    }
+    saveState();
+    $("smallSettingsDialog").close();
+    document.body.classList.remove("is-dialog-open");
+    renderWorkspace();
+    if (window.RK_UNIVERSE && window.RK_UNIVERSE.refresh) {
+      window.RK_UNIVERSE.refresh();
+    }
+    showToast("已恢复为中心设置", "success");
+  }
+
+  function openGuide(module) {
+    var guides = {
+      workspace: {
+        kicker: "收藏拆解 · 模块指南",
+        title: "把收藏整理成可学习的知识主题",
+        intro:
+          "这个模块只做一件事：把零散收藏归入清晰主题，并带你完成四步拆解，让文章从“看过”变成“能用”。",
+        steps: [
+          {
+            title: "整理主题",
+            text: "首页显示全部文章类别。点击“新建类别”，输入名称并选择贴近内容的图标和颜色。类别只负责组织，不会删除原收藏。",
+          },
+          {
+            title: "进入主题",
+            text: "点击任意类别卡片进入主题详情，查看其中的文章、状态和掌握度。左下角可以返回上一界面或回到主页。",
+          },
+          {
+            title: "定位主张",
+            text: "先分清楚作者的核心结论、事实、隐含假设和成立条件。不要急着认同或反对。",
+          },
+          {
+            title: "第一性根基",
+            text: "找到最底层公理，再从公理一步步重建结论。重建不出来的地方，就是需要继续追问的地方。",
+          },
+          {
+            title: "理想型与偏差",
+            text: "把方法抽象成理想形态，再检查现实偏差、边界和反例。理解适用边界比背诵结论更重要。",
+          },
+          {
+            title: "迁移与行动",
+            text: "把知识放回你的工作、学习和决策。完成需要的步骤后，文章会形成行星；标记掌握后点亮。",
+          },
+        ],
+        tip:
+          "中心设置可以关闭或重排四步流程。主题卡和单个步骤右上角的小设置只覆盖当前区域，关闭模块或隐藏主题都不会删除进度。",
+      },
+      universe: {
+        kicker: "炼金宇宙 · 模块指南",
+        title: "在星空中管理自己的知识结构",
+        intro:
+          "这个模块把主题显示为恒星，把文章显示为行星。它帮助你看清知识分布、掌握状态和文章之间的关系。",
+        steps: [
+          {
+            title: "进入星系",
+            text: "每个加入宇宙的主题都是独立的恒星系。点击恒星或左侧列表，可以进入该主题并查看行星。",
+          },
+          {
+            title: "正向旋转",
+            text: "鼠标左键拖动或单指滑动，让视角跟随手势变化。上下俯仰和左右旋转都采用正向操作。",
+          },
+          {
+            title: "移动视角",
+            text: "鼠标右键、中键拖动或双指移动，可以平移观察中心。先移动到想观察的区域。",
+          },
+          {
+            title: "在当前位置缩放",
+            text: "滚轮或双指捏合围绕当前观察中心缩放。缩放到一定比例后，行星会显示文章名字。",
+          },
+          {
+            title: "查看与学习",
+            text: "点击行星打开详情，可以继续拆解、标记掌握或前往知乎原文。点击空白处关闭详情。",
+          },
+          {
+            title: "搜索与加入",
+            text: "搜索栏可以切换“知乎内容”和“我的宇宙”。知乎结果可以加入待拆解；我的宇宙用于定位已有行星。",
+          },
+        ],
+        tip:
+          "宇宙中心设置控制布局、标签、关系链和性能；单个星系右侧的小设置可以覆盖颜色、公转速度和标签阈值。",
+      },
+    };
+    var guide = guides[module] || guides.workspace;
+    $("guideKicker").textContent = guide.kicker;
+    $("guideTitle").textContent = guide.title;
+    $("guideBody").innerHTML =
+      '<p class="guide-intro">' +
+      escapeHtml(guide.intro) +
+      '</p><div class="guide-steps">' +
+      guide.steps
+        .map(function (step, index) {
+          return (
+            '<section class="guide-step"><span class="guide-step-index">' +
+            String(index + 1).padStart(2, "0") +
+            "</span><div><h3>" +
+            escapeHtml(step.title) +
+            "</h3><p>" +
+            escapeHtml(step.text) +
+            "</p></div></section>"
+          );
+        })
+        .join("") +
+      '</div><p class="guide-tip">' +
+      escapeHtml(guide.tip) +
+      "</p>";
+    state.guideSeen[module] = true;
+    saveState();
+    $("guideDialog").showModal();
+    document.body.classList.add("is-dialog-open");
+  }
+
+  function closeGuide() {
+    $("guideDialog").close();
+    document.body.classList.remove("is-dialog-open");
   }
 
   function resetDemo() {
@@ -1008,45 +1782,44 @@
       showToast("同步失败：" + error.message, "warning");
     } finally {
       button.classList.remove("is-loading");
-      button.innerHTML = icon("refresh") + "重新同步收藏";
+      button.innerHTML = icon("refresh") + "同步收藏";
     }
-  }
-
-  function continueLearning() {
-    var id = state.lastArticle;
-    var articleState = id ? getArticleState(id) : null;
-    if (!id || !articleById(id) || (articleState && articleState.status === "lit")) {
-      var unfinished = getArticles().find(function (article) {
-        return getArticleState(article.id).status !== "lit";
-      });
-      id = unfinished ? unfinished.id : getArticles()[0].id;
-    }
-    openArticle(id);
   }
 
   function bindEvents() {
-    $("brandHome").addEventListener("click", function () {
-      setView("workspace");
-    });
+    $("brandHome").addEventListener("click", goHome);
     $("viewWorkspace").addEventListener("click", function () {
-      setView("workspace");
+      if (state.settings.modules.workspace) setView("workspace");
+      else showToast("收藏拆解模块已在中心设置中关闭", "warning");
     });
     $("viewUniverse").addEventListener("click", function () {
-      setView("universe");
+      if (state.settings.modules.universe) setView("universe");
+      else showToast("炼金宇宙模块已在中心设置中关闭", "warning");
     });
-    $("closeUniverse").addEventListener("click", function () {
-      setView("workspace");
-    });
-    $("universeHome").addEventListener("click", function () {
-      setView("workspace");
-    });
+    $("closeUniverse").addEventListener("click", goHome);
+    $("universeHome").addEventListener("click", goHome);
     $("syncCollections").addEventListener("click", syncCollections);
-    $("continueLearning").addEventListener("click", continueLearning);
-    $("backToWorkspace").addEventListener("click", function () {
-      setView("workspace");
+    $("newThemeButton").addEventListener("click", openThemeCreate);
+    $("backToWorkspace").addEventListener("click", goBack);
+    $("navPrevious").addEventListener("click", goBack);
+    $("navHome").addEventListener("click", goHome);
+    $("guideCompass").addEventListener("click", function () {
+      openGuide(currentModule());
+    });
+    $("closeGuideButton").addEventListener("click", closeGuide);
+    $("guideDialog").addEventListener("close", function () {
+      document.body.classList.remove("is-dialog-open");
     });
 
     $("themeGrid").addEventListener("click", function (event) {
+      var settingsButton = event.target.closest("[data-theme-settings]");
+      if (settingsButton) {
+        openSmallSettings({
+          type: "theme",
+          id: settingsButton.getAttribute("data-theme-settings"),
+        });
+        return;
+      }
       var addButton = event.target.closest("[data-add-theme]");
       if (addButton) {
         var themeId = addButton.getAttribute("data-add-theme");
@@ -1063,6 +1836,10 @@
       }
       var card = event.target.closest("[data-theme-id]");
       if (card) selectTheme(card.getAttribute("data-theme-id"));
+    });
+
+    $("openThemeSettings").addEventListener("click", function () {
+      openSmallSettings({ type: "theme", id: state.selectedTheme });
     });
 
     $("articleList").addEventListener("click", function (event) {
@@ -1091,7 +1868,7 @@
     $("stepNav").addEventListener("click", function (event) {
       var button = event.target.closest("[data-article-step]");
       if (!button) return;
-      state.articleStep = Number(button.getAttribute("data-article-step"));
+      state.articleStep = button.getAttribute("data-article-step");
       renderArticle();
       saveState();
     });
@@ -1105,6 +1882,9 @@
       if (action === "mark-mastered") markMastered();
       if (action === "add-to-universe") addArticleToUniverse(state.selectedArticle);
       if (action === "open-universe") openUniverseForArticle();
+      if (action === "open-step-settings") {
+        openSmallSettings({ type: "step", id: state.articleStep });
+      }
     });
 
     $("noteForm").addEventListener("submit", function (event) {
@@ -1136,7 +1916,12 @@
       showToast("已清空本篇札记");
     });
 
-    $("openSettings").addEventListener("click", openSettings);
+    $("openSettings").addEventListener("click", function () {
+      openSettings("workspace");
+    });
+    $("openUniverseSettings").addEventListener("click", function () {
+      openSettings("universe");
+    });
     $("closeSettingsButton").addEventListener("click", function () {
       closeSettings();
       $("settingsDialog").close();
@@ -1144,20 +1929,86 @@
     $("settingsDialog").addEventListener("close", closeSettings);
     $("settingsForm").addEventListener("submit", function (event) {
       event.preventDefault();
-      savePreferences();
+      saveCenterSettings();
       closeSettings();
       $("settingsDialog").close();
     });
-    $("interestChoices").addEventListener("click", function (event) {
-      var button = event.target.closest("[data-interest]");
+    $("centerSettingsBody").addEventListener("click", function (event) {
+      var button = event.target.closest("[data-step-move]");
       if (!button) return;
-      var value = button.getAttribute("data-interest");
-      var index = state.preferences.interests.indexOf(value);
-      if (index === -1) state.preferences.interests.push(value);
-      else state.preferences.interests.splice(index, 1);
-      renderSettings();
+      var stepId = button.getAttribute("data-step-id");
+      var direction = button.getAttribute("data-step-move");
+      var order = state.settings.workspace.stepOrder.slice();
+      var index = order.indexOf(stepId);
+      var nextIndex = direction === "up" ? index - 1 : index + 1;
+      if (nextIndex < 0 || nextIndex >= order.length) return;
+      order.splice(index, 1);
+      order.splice(nextIndex, 0, stepId);
+      state.settings.workspace.stepOrder = order;
+      var item = button.closest(".step-order-item");
+      var list = button.closest(".step-order-list");
+      if (item && list) {
+        var sibling = list.children[nextIndex];
+        if (direction === "up") list.insertBefore(item, sibling);
+        else list.insertBefore(item, sibling ? sibling.nextSibling : null);
+        Array.prototype.forEach.call(list.children, function (row, rowIndex) {
+          var indexNode = row.querySelector(".step-index");
+          if (indexNode) indexNode.textContent = String(rowIndex + 1).padStart(2, "0");
+        });
+      }
+    });
+    $("centerSettingsBody").addEventListener("change", function (event) {
+      var input = event.target.closest("[data-step-enabled]");
+      if (!input) return;
+      state.settings.workspace.stepEnabled[input.getAttribute("data-step-enabled")] =
+        input.checked;
+      var item = input.closest(".step-order-item");
+      if (item) item.classList.toggle("is-disabled", !input.checked);
     });
     $("resetDemo").addEventListener("click", resetDemo);
+
+    $("closeSmallSettingsButton").addEventListener("click", function () {
+      $("smallSettingsDialog").close();
+      document.body.classList.remove("is-dialog-open");
+    });
+    $("smallSettingsDialog").addEventListener("close", function () {
+      document.body.classList.remove("is-dialog-open");
+    });
+    $("smallSettingsForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveSmallSettings();
+      $("smallSettingsDialog").close();
+      document.body.classList.remove("is-dialog-open");
+    });
+    $("resetSmallSettings").addEventListener("click", resetSmallSettings);
+
+    $("themeIconChoices").addEventListener("click", function (event) {
+      var button = event.target.closest("[data-theme-icon]");
+      if (!button) return;
+      themeCreateSelection.icon = button.getAttribute("data-theme-icon");
+      renderThemeCreateChoices();
+    });
+    $("themeColorChoices").addEventListener("click", function (event) {
+      var button = event.target.closest("[data-theme-color]");
+      if (!button) return;
+      themeCreateSelection.color = button.getAttribute("data-theme-color");
+      renderThemeCreateChoices();
+    });
+    $("themeCreateForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      createCustomTheme();
+    });
+    $("closeThemeCreateButton").addEventListener("click", function () {
+      $("themeCreateDialog").close();
+      document.body.classList.remove("is-dialog-open");
+    });
+    $("cancelThemeCreate").addEventListener("click", function () {
+      $("themeCreateDialog").close();
+      document.body.classList.remove("is-dialog-open");
+    });
+    $("themeCreateDialog").addEventListener("close", function () {
+      document.body.classList.remove("is-dialog-open");
+    });
 
     window.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && state.currentView === "universe") {
@@ -1173,7 +2024,7 @@
   }
 
   function initialize() {
-    state.currentView = "workspace";
+    state.currentView = state.settings.modules.workspace ? "workspace" : "universe";
     $("collectionSearch").value = state.collectionSearch || "";
     Array.prototype.forEach.call(
       $("statusFilter").querySelectorAll("button"),
@@ -1184,10 +2035,14 @@
         );
       },
     );
+    document.documentElement.classList.toggle(
+      "reduce-motion",
+      state.settings.workspace.reduceMotion,
+    );
     hydrateIcons(document);
     bindEvents();
     renderWorkspace();
-    renderSettings();
+    updateNavigationDock();
     if (window.RK_UNIVERSE && window.RK_UNIVERSE.init) {
       window.RK_UNIVERSE.init();
     }
@@ -1197,6 +2052,14 @@
       openArticle(requestedArticle);
     } else if (requestedView === "universe") {
       setView("universe");
+    } else if (requestedView === "collection" && themeOf(state.selectedTheme)) {
+      setView("collection");
+    }
+    var firstGuide = state.settings.modules.workspace ? "workspace" : "universe";
+    if (!state.guideSeen[firstGuide]) {
+      setTimeout(function () {
+        openGuide(firstGuide);
+      }, 700);
     }
   }
 
@@ -1205,6 +2068,7 @@
     icon: icon,
     escapeHtml: escapeHtml,
     themeOf: themeOf,
+    getThemes: getThemes,
     articleById: articleById,
     getArticles: getArticles,
     getState: function () {
@@ -1214,6 +2078,8 @@
     statusLabel: statusLabel,
     saveState: saveState,
     setView: setView,
+    goHome: goHome,
+    goBack: goBack,
     openArticle: openArticle,
     renderWorkspace: renderWorkspace,
     renderArticle: renderArticle,
@@ -1299,6 +2165,9 @@
     },
     levelInfo: levelInfo,
     formatVotes: formatVotes,
+    openGalaxySettings: function (themeId) {
+      openSmallSettings({ type: "galaxy", id: themeId });
+    },
   };
 
   if (document.readyState === "loading") {

@@ -56,64 +56,49 @@
       <main class="main-content">
         <section class="view workspace-view is-active" id="workspaceView">
           <div class="workspace-grid">
-            <section class="workspace-hero">
-              <div class="hero-main">
-                <div class="eyebrow">
-                  <span class="live-dot"></span>
-                  收藏已同步 · <span id="syncTime">刚刚</span>
-                </div>
-                <h1>把散落的收藏，炼成你自己的知识宇宙。</h1>
-                <p>
-                  AI 先按知识主题重组收藏，再用第一性原理与理想型分析拆解每一篇。
-                  理解后加入宇宙，让文章从星胚长成行星。
-                </p>
-                <div class="hero-actions">
-                  <button class="button button-primary" id="syncCollections" type="button">
-                    <span class="icon" data-icon="refresh"></span>
-                    重新同步收藏
-                  </button>
-                  <button class="button button-quiet" id="continueLearning" type="button">
-                    <span class="icon" data-icon="play"></span>
-                    继续上次拆解
-                  </button>
-                </div>
-              </div>
-
-              <div class="hero-metrics" aria-label="收藏概览">
-                <div class="metric">
-                  <span class="metric-label">收藏主题</span>
-                  <strong id="metricThemes">0</strong>
-                  <small>AI 已完成聚类</small>
-                </div>
-                <div class="metric">
-                  <span class="metric-label">宇宙行星</span>
-                  <strong id="metricPlanets">0</strong>
-                  <small>等待或已经点亮</small>
-                </div>
-                <div class="metric">
-                  <span class="metric-label">已掌握</span>
-                  <strong id="metricMastered">0</strong>
-                  <small id="metricMasteredHint">继续炼化收藏</small>
-                </div>
-              </div>
-            </section>
-
-            <section class="section-block" aria-labelledby="themeHeading">
+            <section class="section-block theme-section" aria-labelledby="themeHeading">
               <div class="section-heading">
                 <div>
                   <span class="section-kicker">AI 主题聚类</span>
-                  <h2 id="themeHeading">你的收藏星系</h2>
+                  <h2 id="themeHeading">文章主题归类</h2>
+                  <p class="section-description">
+                    每篇文章都归入一个可调整的知识主题，点击主题进入文章拆解。
+                  </p>
                 </div>
-                <p>加入宇宙时采用当前快照，之后新增文章由你决定是否同步。</p>
+                <div class="section-heading-actions">
+                  <span class="sync-caption">收藏同步于 <span id="syncTime">刚刚</span></span>
+                  <button class="button button-quiet" id="syncCollections" type="button">
+                    <span class="icon" data-icon="refresh"></span>
+                    同步收藏
+                  </button>
+                  <button class="button button-primary" id="newThemeButton" type="button">
+                    <span class="icon" data-icon="plus"></span>
+                    新建类别
+                  </button>
+                </div>
               </div>
               <div class="theme-grid" id="themeGrid"></div>
             </section>
+          </div>
+        </section>
 
-            <section class="section-block collection-block" aria-labelledby="collectionHeading">
+        <section class="view collection-view" id="collectionView">
+          <div class="collection-page">
+            <header class="collection-page-head">
+              <div>
+                <span class="section-kicker" id="collectionKicker">当前主题</span>
+                <h1 id="collectionHeading">收藏文章</h1>
+              </div>
+              <button class="region-settings-button" id="openThemeSettings" type="button">
+                <span class="icon" data-icon="settings"></span>
+                主题小设置
+              </button>
+            </header>
+            <section class="section-block collection-block" aria-label="主题文章">
               <div class="section-heading collection-heading">
                 <div>
-                  <span class="section-kicker" id="collectionKicker">当前主题</span>
-                  <h2 id="collectionHeading">收藏文章</h2>
+                  <span class="section-kicker">主题内容</span>
+                  <h2>收藏文章</h2>
                 </div>
                 <div class="collection-tools">
                   <div class="search-field compact">
@@ -202,6 +187,9 @@
 
               <div class="universe-actions">
                 <span class="universe-counter" id="universeCounter">0 个星系 · 0 颗行星</span>
+                <button class="universe-icon-button" id="openUniverseSettings" type="button" aria-label="炼金宇宙中心设置" title="炼金宇宙中心设置">
+                  <span class="icon" data-icon="settings"></span>
+                </button>
                 <button class="universe-icon-button" id="resetUniverseCamera" type="button" aria-label="重置视角" title="重置视角">
                   <span class="icon" data-icon="maximize"></span>
                 </button>
@@ -243,68 +231,103 @@
       </main>
     </div>
 
+    <div class="fixed-nav-dock" id="fixedNavDock">
+      <button class="fixed-nav-button" id="navPrevious" type="button" aria-label="返回上一界面" title="返回上一界面">
+        <span class="icon" data-icon="arrow-left"></span>
+      </button>
+      <button class="fixed-nav-button" id="navHome" type="button" aria-label="返回主页" title="返回主页">
+        <span class="icon" data-icon="home"></span>
+      </button>
+    </div>
+
+    <button class="guide-compass" id="guideCompass" type="button" aria-label="打开模块指南" title="模块指南">
+      <span class="compass-ring"><i></i></span>
+      <span class="guide-compass-label">指南</span>
+    </button>
+
+    <dialog class="guide-dialog" id="guideDialog">
+      <article class="guide-card">
+        <header class="dialog-head">
+          <div>
+            <span class="section-kicker" id="guideKicker">模块指南</span>
+            <h2 id="guideTitle">使用指南</h2>
+          </div>
+          <button class="icon-button" id="closeGuideButton" type="button" aria-label="关闭指南">
+            <span class="icon" data-icon="x"></span>
+          </button>
+        </header>
+        <div class="guide-body" id="guideBody"></div>
+      </article>
+    </dialog>
+
     <dialog class="settings-dialog" id="settingsDialog">
       <form method="dialog" class="settings-card" id="settingsForm">
         <div class="dialog-head">
           <div>
-            <span class="section-kicker">炼金配方</span>
-            <h2>让炼知更贴近你</h2>
+            <span class="section-kicker" id="settingsKicker">中心设置</span>
+            <h2 id="settingsTitle">收藏拆解</h2>
           </div>
           <button class="icon-button" id="closeSettingsButton" type="button" aria-label="关闭设置">
             <span class="icon" data-icon="x"></span>
           </button>
         </div>
-
-        <div class="settings-section">
-          <label>关注领域</label>
-          <div class="choice-wrap" id="interestChoices"></div>
-        </div>
-
-        <div class="settings-grid">
-          <label class="field">
-            <span>当前目标</span>
-            <select id="goalSelect">
-              <option value="建立自己的知识体系">建立自己的知识体系</option>
-              <option value="解决一个具体问题">解决一个具体问题</option>
-              <option value="准备输出与表达">准备输出与表达</option>
-              <option value="长期复习与记忆">长期复习与记忆</option>
-            </select>
-          </label>
-
-          <label class="field">
-            <span>拆解深度</span>
-            <select id="depthSelect">
-              <option value="quick">快速定位</option>
-              <option value="standard">标准拆解</option>
-              <option value="deep">第一性深挖</option>
-            </select>
-          </label>
-
-          <label class="field">
-            <span>优先视角</span>
-            <select id="angleSelect">
-              <option value="first-principles">第一性原理</option>
-              <option value="action">行动迁移</option>
-              <option value="debate">反例与争论</option>
-              <option value="connection">跨主题连接</option>
-            </select>
-          </label>
-
-          <label class="field">
-            <span>宇宙排列</span>
-            <select id="orderSelect">
-              <option value="cluster">按主题星系</option>
-              <option value="mastery">按掌握程度</option>
-              <option value="recent">按最近加入</option>
-            </select>
-          </label>
-        </div>
-
+        <div class="settings-body" id="centerSettingsBody"></div>
         <div class="settings-actions">
           <button class="button button-quiet" id="resetDemo" type="button">恢复演示数据</button>
           <button class="button button-primary" id="saveSettings" value="default" type="submit">
-            保存配方
+            保存设置
           </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="settings-dialog small-settings-dialog" id="smallSettingsDialog">
+      <form method="dialog" class="settings-card" id="smallSettingsForm">
+        <div class="dialog-head">
+          <div>
+            <span class="section-kicker">区域小设置</span>
+            <h2 id="smallSettingsTitle">当前区域</h2>
+          </div>
+          <button class="icon-button" id="closeSmallSettingsButton" type="button" aria-label="关闭设置">
+            <span class="icon" data-icon="x"></span>
+          </button>
+        </div>
+        <div class="settings-body" id="smallSettingsBody"></div>
+        <div class="settings-actions">
+          <button class="button button-quiet" id="resetSmallSettings" type="button">恢复继承</button>
+          <button class="button button-primary" type="submit">应用</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="settings-dialog theme-create-dialog" id="themeCreateDialog">
+      <form method="dialog" class="settings-card" id="themeCreateForm">
+        <div class="dialog-head">
+          <div>
+            <span class="section-kicker">主题归类</span>
+            <h2>新建类别</h2>
+          </div>
+          <button class="icon-button" id="closeThemeCreateButton" type="button" aria-label="关闭">
+            <span class="icon" data-icon="x"></span>
+          </button>
+        </div>
+        <div class="settings-body">
+          <label class="field">
+            <span>类别名称</span>
+            <input id="themeNameInput" maxlength="16" placeholder="例如：产品设计、家庭理财、周末游戏" />
+          </label>
+          <div class="settings-section">
+            <label>选择图标</label>
+            <div class="icon-choice-grid" id="themeIconChoices"></div>
+          </div>
+          <label class="field">
+            <span>主题色</span>
+            <div class="color-choice-grid" id="themeColorChoices"></div>
+          </label>
+        </div>
+        <div class="settings-actions">
+          <button class="button button-quiet" id="cancelThemeCreate" type="button">取消</button>
+          <button class="button button-primary" type="submit">创建类别</button>
         </div>
       </form>
     </dialog>
