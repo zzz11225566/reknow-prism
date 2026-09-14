@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="炼知 ReKnow 产品说明计划书：把知乎收藏炼成自己的回答，连接内容消费、主动学习与社区回流。"
+    />
+    <title>炼知 ReKnow · 产品说明计划书</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-nav" id="siteNav">
+      <a class="nav-brand" href="#top" aria-label="返回顶部">
+        <span class="nav-brand-mark">炼</span>
+        <span>
+          <strong>炼知 ReKnow</strong>
+          <small>产品说明计划书</small>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="页面目录">
+        <a href="#summary">摘要</a>
+        <a href="#logic">核心思路</a>
+        <a href="#technology">技术方案</a>
+        <a href="#ecosystem">知乎生态</a>
+        <a href="#roadmap">路线图</a>
+      </nav>
+      <a
+        class="nav-action"
+        href="https://github.com/zzz11225566/reknow-universe"
+        target="_blank"
+        rel="noreferrer"
+      >
+        查看项目仓库
+      </a>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-media" aria-hidden="true">
+          <img src="./assets/cover.png" alt="" />
+        </div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">知乎黑客松 2026 · 知识炼金场</p>
+          <h1>
+            <span>炼知</span>
+            ReKnow
+          </h1>
+          <p class="hero-lead">把知乎收藏，炼成自己的回答</p>
+          <p class="hero-description">
+            炼知把用户收藏夹里的优质回答，变成可拆解、可验证、可连接、可输出的个人知识资产。
+            它不是第二个收藏夹，而是连接知乎内容消费、主动学习与社区创作的一条知识加工链。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-light" href="#logic">查看核心思路</a>
+            <a class="button button-ghost" href="#ecosystem">查看知乎生态价值</a>
+          </div>
+          <dl class="hero-metrics">
+            <div>
+              <dt>学习闭环</dt>
+              <dd>5 步</dd>
+            </div>
+            <div>
+              <dt>知识空间</dt>
+              <dd>3D 宇宙</dd>
+            </div>
+            <div>
+              <dt>技术边界</dt>
+              <dd>前端零密钥</dd>
+            </div>
+          </dl>
+        </div>
+        <a class="scroll-cue" href="#summary">
+          <span>继续阅读</span>
+          <i aria-hidden="true"></i>
+        </a>
+      </section>
+
+      <section class="section section-summary" id="summary">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">01 / 评审摘要</p>
+            <h2>收藏不是终点，理解与输出才是</h2>
+            <p class="section-lead">
+              炼知的核心命题不是“帮用户整理更多内容”，而是解决知乎社区中一个高频而长期存在的问题：
+              用户收藏了大量好回答，却没有把它们转化为自己的能力、表达和行动。
+            </p>
+          </div>
+
+          <blockquote class="thesis">
+            <p>
+              让知乎收藏完成一次身份转换：从沉睡的内容库存，
+              变成用户可以理解、验证、迁移并重新发布的个人知识资产。
+            </p>
+            <cite>炼知 ReKnow 产品使命</cite>
+          </blockquote>
+
+          <div class="summary-grid">
+            <article class="summary-item">
+              <span class="summary-number">01</span>
+              <h3>用户问题真实</h3>
+              <p>
+                收藏门槛极低、回看成本很高。用户获得的是“以后会看”的安全感，
+                而不是稳定、可调用的知识。
+              </p>
+            </article>
+            <article class="summary-item">
+              <span class="summary-number">02</span>
+              <h3>方法不是摘要工具</h3>
+              <p>
+                用第一性原理拆出事实、假设、推导与边界，再用 AI 抬杠检验理解，
+                最后回到真实场景。
+              </p>
+            </article>
+            <article class="summary-item">
+              <span class="summary-number">03</span>
+              <h3>体验形成长期动机</h3>
+              <p>
+                主题是星系、文章是行星、学会即点亮。知识进度从抽象百分比变成
+                可观察、可探索的个人宇宙。
+              </p>
+            </article>
+            <article class="summary-item">
+              <span class="summary-number">04</span>
+              <h3>社区价值闭环</h3>
+              <p>
+                原文、收藏、学习、回答仍在知乎生态内流转。炼知只组织用户的学习结果，
+                不截断内容来源与创作回流。
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-problem">
+        <div class="container">
+          <div class="section-heading compact-heading">
+            <p class="section-index">02 / 问题定义</p>
+            <h2>“收藏吃灰”背后，缺失的是一道加工工序</h2>
+          </div>
+          <div class="problem-flow" aria-label="收藏到能力的断裂链路">
+            <div class="problem-node">
+              <strong>看到好内容</strong>
+              <span>即时获得感</span>
+            </div>
+            <i>→</i>
+            <div class="problem-node is-broken">
+              <strong>点击收藏</strong>
+              <span>安全感替代理解</span>
+            </div>
+            <i>→</i>
+            <div class="problem-node is-broken">
+              <strong>长期不打开</strong>
+              <span>结构与语境丢失</span>
+            </div>
+            <i>→</i>
+            <div class="problem-node is-broken">
+              <strong>需要用时找不到</strong>
+              <span>无法表达或迁移</span>
+            </div>
+          </div>
+          <p class="problem-conclusion">
+            缺失工序有三个：没有主动重建，缺少压力测试，也没有面向输出的知识结构。
+            炼知针对的不是“信息太多”，而是“信息无法变成能力”。
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-logic" id="logic">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">03 / 核心创作思路</p>
+            <h2>用一条可验证的认知闭环，重写收藏的价值</h2>
+            <p class="section-lead">
+              产品围绕“主动重建而非被动阅读”设计。
+              每一步都对应一种认知动作，也都有清晰的完成标准。
+            </p>
+          </div>
+
+          <ol class="learning-loop">
+            <li>
+              <span class="loop-number">01</span>
+              <div>
+                <h3>选料</h3>
+                <p>从知乎收藏或系统推荐中确定今天真正要解决的问题。</p>
+              </div>
+            </li>
+            <li>
+              <span class="loop-number">02</span>
+              <div>
+                <h3>拆解</h3>
+                <p>区分结论、事实、经验、隐含假设、推导链与适用边界。</p>
+              </div>
+            </li>
+            <li class="is-core">
+              <span class="loop-number">03</span>
+              <div>
+                <h3>AI 开杠</h3>
+                <p>让 AI 抓住用户原话中的漏洞，用边界、反例和前提逼问理解。</p>
+              </div>
+            </li>
+            <li>
+              <span class="loop-number">04</span>
+              <div>
+                <h3>图谱</h3>
+                <p>把知识卡、概念、观点和关系连接成可重建的个人结构。</p>
+              </div>
+            </li>
+            <li>
+              <span class="loop-number">05</span>
+              <div>
+                <h3>回流</h3>
+                <p>形成回答草稿、行动方案或表达材料，再把结果带回知乎。</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="principle-grid">
+            <article>
+              <span>PRINCIPLE A</span>
+              <h3>主动重建</h3>
+              <p>
+                不把“看过”当成“学会”。用户必须用自己的语言重建因果链，
+                才能标记为已学会。
+              </p>
+            </article>
+            <article>
+              <span>PRINCIPLE B</span>
+              <h3>AI 作为反对派</h3>
+              <p>
+                AI 不替用户写答案，而是指出模糊词、隐藏前提和失效场景，
+                将“看懂”变成经得起追问的理解。
+              </p>
+            </article>
+            <article>
+              <span>PRINCIPLE C</span>
+              <h3>知识可迁移</h3>
+              <p>
+                每个知识点最终都要落到真实任务、生活情境或输出目标，
+                避免知识只停留在笔记中。
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-product">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">04 / 产品结构</p>
+            <h2>一个高效率工作台，一座长期生长的知识宇宙</h2>
+          </div>
+          <div class="product-surfaces">
+            <article class="surface-copy">
+              <span class="surface-label">界面一 · 收藏拆解</span>
+              <h3>把阅读变成可操作的学习流程</h3>
+              <p>
+                收藏进入主题归类后，用户可以逐篇拆解、记录札记、与 AI 对话、
+                使用无边记建立结构，并用“未学会 / 已学会”管理真实学习状态。
+              </p>
+              <ul class="feature-list">
+                <li>中心设置管规则，区域小设置做单主题、单文章、单星系覆盖。</li>
+                <li>文章步骤可关闭、重排和还原，不删除任何学习数据。</li>
+                <li>AI 问答自动带入当前文章、原文选区和已写批注。</li>
+                <li>完成学习后状态自动同步到宇宙，不维护两套进度。</li>
+              </ul>
+            </article>
+            <figure class="surface-shot">
+              <img src="./assets/recommendation.png" alt="炼知收藏拆解首页截图" />
+              <figcaption>未登录时展示系统推荐；授权后切换为真实收藏。</figcaption>
+            </figure>
+          </div>
+
+          <div class="product-surfaces reverse">
+            <figure class="surface-shot">
+              <img src="./assets/universe.png" alt="炼知炼金宇宙截图" />
+              <figcaption>主题是星系，文章是行星；未学会为暗星，学会后点亮。</figcaption>
+            </figure>
+            <article class="surface-copy">
+              <span class="surface-label">界面二 · 炼金宇宙</span>
+              <h3>让长期积累变得可见、可进入、可探索</h3>
+              <p>
+                3D 宇宙不是装饰背景，而是用户知识状态的空间表达。
+                用户可以搜索知乎内容、进入主题星系、双击恒星调整星系、
+                在星球详情中继续学习或同步学习状态。
+              </p>
+              <ul class="feature-list">
+                <li>每个星系由中心恒星和文章行星组成，位置采用三维错落布局。</li>
+                <li>单击恒星进入星系，双击打开颜色、公转和星球增删设置。</li>
+                <li>暗星与未学会文章同步，亮星与已学会文章同步。</li>
+                <li>背景由三层常显星点组成，保持克制、稳定的沉浸氛围。</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-journey">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">05 / 用户路径</p>
+            <h2>从授权到回流，形成一个完整可演示的最小闭环</h2>
+          </div>
+          <div class="journey-table" role="table" aria-label="用户操作与产品结果">
+            <div class="journey-row journey-head" role="row">
+              <span>阶段</span>
+              <span>用户操作</span>
+              <span>产品反馈</span>
+              <span>价值结果</span>
+            </div>
+            <div class="journey-row" role="row">
+              <strong>01 接入</strong>
+              <span>授权知乎，或先体验系统推荐</span>
+              <span>收藏按主题组织，空收藏有明确空态</span>
+              <span>降低第一次使用门槛</span>
+            </div>
+            <div class="journey-row" role="row">
+              <strong>02 炼化</strong>
+              <span>选择一篇文章并完成学习步骤</span>
+              <span>生成结构化拆解、AI 追问和学习札记</span>
+              <span>从“看过”进入“能解释”</span>
+            </div>
+            <div class="journey-row" role="row">
+              <strong>03 成形</strong>
+              <span>完成学习并点亮星体</span>
+              <span>文章状态、列表状态和星球亮度同步</span>
+              <span>形成可持续积累的可视反馈</span>
+            </div>
+            <div class="journey-row" role="row">
+              <strong>04 连接</strong>
+              <span>建立概念关联和主题结构</span>
+              <span>图谱与宇宙形成知识链路</span>
+              <span>从碎片进入个人体系</span>
+            </div>
+            <div class="journey-row" role="row">
+              <strong>05 输出</strong>
+              <span>生成回答、笔记或表达材料</span>
+              <span>保留来源索引，一键回看知乎原文</span>
+              <span>从消费者走向创作者</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-technology" id="technology">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">06 / 整体技术实现</p>
+            <h2>前端负责体验，后端保管能力，知乎保留内容主权</h2>
+            <p class="section-lead">
+              技术方案遵循一条清晰边界：浏览器只负责交互与状态表达，
+              所有密钥、长期凭证和敏感数据均由服务端管理。
+            </p>
+          </div>
+
+          <div class="architecture">
+            <article class="arch-column">
+              <span class="arch-label">BROWSER</span>
+              <h3>体验与状态层</h3>
+              <ul>
+                <li>HTML / CSS / JavaScript 单页应用</li>
+                <li>React + TypeScript 重构验证</li>
+                <li>Three.js WebGL 三维宇宙</li>
+                <li>localStorage 本地状态与离线缓存</li>
+                <li>SSE 流式 AI、WebSocket 多人房间</li>
+              </ul>
+            </article>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <article class="arch-column is-accent">
+              <span class="arch-label">NODE SERVICE</span>
+              <h3>能力与安全边界</h3>
+              <ul>
+                <li>零运行时依赖静态托管 + REST</li>
+                <li>知乎 OAuth 回调与用户级收藏接口</li>
+                <li>DeepSeek / 知乎直答双通道模型代理</li>
+                <li>TTL 缓存、SSE、WebSocket 房间广播</li>
+                <li>JWT、SQLite、云端同步原型</li>
+              </ul>
+            </article>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <article class="arch-column">
+              <span class="arch-label">ZHIHU + AI</span>
+              <h3>内容与智能能力</h3>
+              <ul>
+                <li>知乎开放平台搜索、热榜、回答</li>
+                <li>用户授权后的收藏夹与收藏内容</li>
+                <li>知乎直答负责知识问答</li>
+                <li>DeepSeek 负责抬杠与结构化拆解</li>
+                <li>原文始终跳转知乎完整语境</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="tech-details">
+            <article>
+              <span>01</span>
+              <h3>内容模型</h3>
+              <p>
+                主题是知识星系，文章是行星。文章生命周期包含未学会和已学会两类核心状态，
+                已学会状态同时驱动文章界面、列表筛选和宇宙亮度。
+              </p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>状态模型</h3>
+              <p>
+                文章使用唯一 `learned` 状态作为真源。完成学习后自动点亮，
+                星球取消点亮会反向把文章同步为未学会，避免双状态漂移。
+              </p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>个性化模型</h3>
+              <p>
+                中心设置保存全局规则，区域小设置保存局部覆盖。
+                用户可调整学习步骤、拆解深度、AI 语气、主题排列和宇宙表现。
+              </p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>安全与版权</h3>
+              <p>
+                前端不持有知乎 token 或模型密钥；服务端使用最小授权。
+                产品保存索引、摘要和用户生成结构，不替代知乎原文。
+              </p>
+            </article>
+          </div>
+
+          <div class="code-map">
+            <div class="code-map-head">
+              <span>核心代码职责</span>
+              <small>当前宇宙版主线 + 重构验证</small>
+            </div>
+            <div class="code-map-grid">
+              <div><code>index.html</code><span>骨架、双模块入口、设置与阅读界面</span></div>
+              <div><code>app.js</code><span>收藏归类、学习状态、步骤、笔记与设置</span></div>
+              <div><code>universe.js</code><span>星系、行星、镜头、星点与状态映射</span></div>
+              <div><code>oauth.js / api.js</code><span>授权状态、收藏同步和知乎数据适配</span></div>
+              <div><code>server.js</code><span>OAuth、OpenAPI、AI 代理、SSE 与 WebSocket</span></div>
+              <div><code>新版/src</code><span>文章、卡片、概念、项目、输出和报告重构验证</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-ecosystem" id="ecosystem">
+        <div class="container">
+          <div class="section-heading inverse-heading">
+            <p class="section-index">07 / 与知乎社区生态的契合</p>
+            <h2>不是把内容搬走，而是让知乎内容多活一次</h2>
+            <p class="section-lead">
+              炼知不建立封闭内容池，也不截流原创。它把用户已经收藏的知乎内容，
+              加工成用户能带走的理解，再把新的表达回流知乎。
+            </p>
+          </div>
+          <div class="ecosystem-grid">
+            <article>
+              <span class="eco-tag">内容侧</span>
+              <h3>唤醒长尾内容</h3>
+              <p>
+                将被收藏后长期沉睡的高质量回答重新纳入学习、讨论和创作场景，
+                延长优质内容的价值周期。
+              </p>
+            </article>
+            <article>
+              <span class="eco-tag">用户侧</span>
+              <h3>提高收藏完成度</h3>
+              <p>
+                通过拆解、追问、连接和输出，让收藏从“拥有内容”变成
+                “获得能力”，提高回访和长期留存。
+              </p>
+            </article>
+            <article>
+              <span class="eco-tag">创作者侧</span>
+              <h3>降低二次创作门槛</h3>
+              <p>
+                学习结果保留来源索引，用户可以在理解的基础上形成回答草稿，
+                增加新的观点与经验，而不是简单洗稿。
+              </p>
+            </article>
+            <article>
+              <span class="eco-tag">平台侧</span>
+              <h3>促进消费到创作的循环</h3>
+              <p>
+                用户从阅读者变成提问者、回答者和分享者，
+                让知乎的内容消费与内容生产形成更强的正反馈。
+              </p>
+            </article>
+          </div>
+
+          <div class="compliance-panel">
+            <div>
+              <span class="panel-label">合规边界</span>
+              <h3>官方授权、最小范围、来源可追溯</h3>
+            </div>
+            <ul>
+              <li>只使用知乎开放平台官方 API 和用户明确授权的数据。</li>
+              <li>OAuth token 与模型密钥仅存服务端，前端永远看不到。</li>
+              <li>默认保存收藏索引、摘要与用户生成结构，不替代原文全文。</li>
+              <li>阅读与输出均保留来源，完整语境回到知乎查看。</li>
+              <li>AI 只做拆解、提问、反驳和整理，最终判断与发布仍由用户完成。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-value">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">08 / 场景价值</p>
+            <h2>一个入口，覆盖知乎用户从轻量整理到深度输出的完整需求</h2>
+          </div>
+          <div class="scenario-grid">
+            <article>
+              <span>01</span>
+              <h3>周末清理收藏夹</h3>
+              <p>批量分类、快速摘要、决定保留与归档，减少囤积焦虑。</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>每天十分钟轻学习</h3>
+              <p>从卡片和暗星中继续未完成内容，不需要重新决定学什么。</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>考试与面试复习</h3>
+              <p>围绕主题建立概念连接，优先回看尚未学会的知识点。</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>写知乎回答或长文</h3>
+              <p>把知识卡组织成观点、证据与行动，形成可继续编辑的草稿。</p>
+            </article>
+            <article>
+              <span>05</span>
+              <h3>项目研究</h3>
+              <p>以项目目标筛选收藏，形成资料、概念和行动之间的联系。</p>
+            </article>
+            <article>
+              <span>06</span>
+              <h3>学习小组与企业培训</h3>
+              <p>围绕共同主题共建知识地图，并共享个人知识星系。</p>
+            </article>
+          </div>
+
+          <div class="value-metrics">
+            <div>
+              <strong>激活</strong>
+              <span>授权绑定率、首次同步完成率</span>
+            </div>
+            <div>
+              <strong>学习</strong>
+              <span>知识卡生成量、卫星点亮率</span>
+            </div>
+            <div>
+              <strong>连接</strong>
+              <span>概念关联数、主题星系完整度</span>
+            </div>
+            <div>
+              <strong>创作</strong>
+              <span>输出生成率、回流知乎回答数</span>
+            </div>
+            <div>
+              <strong>留存</strong>
+              <span>7 日与 30 日回访、跨设备连续学习</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-history">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">09 / 创作历程</p>
+            <h2>每一次改版都来自一个真实问题</h2>
+            <p class="section-lead">
+              项目不是一次成型的，而是在“产品复杂度、操作清晰度、状态准确性和技术边界”
+              之间持续取舍、验证和重构。
+            </p>
+          </div>
+          <div class="timeline">
+            <article>
+              <time>09.10</time>
+              <div>
+                <h3>先解决审美与信息秩序</h3>
+                <p>
+                  收藏工具容易显得像普通清单。项目开始重做视觉、模块层级和首次使用说明，
+                  让用户先理解“为什么学”，再操作“怎么学”。
+                </p>
+                <span>结果：形成清晰的收藏拆解工作台。</span>
+              </div>
+            </article>
+            <article>
+              <time>09.11</time>
+              <div>
+                <h3>从工作台升级为炼金宇宙</h3>
+                <p>
+                  单纯列表无法表达长期积累。项目把主题映射为星系、文章映射为行星，
+                  并加入炼金炉、关系链、昼夜、天气、原文批注和看山陪伴。
+                </p>
+                <span>结果：学习进度第一次成为可探索的空间。</span>
+              </div>
+            </article>
+            <article>
+              <time>09.12</time>
+              <div>
+                <h3>反思高耦合与操作复杂度</h3>
+                <p>
+                  原有代码把所有功能压在少数超大文件中，且设置、步骤和宇宙操作过多。
+                  随后拆出明确的视图、中心设置与区域小设置，并完成性能、覆盖层和移动端修正。
+                </p>
+                <span>结果：功能保留，操作逻辑与视觉层级更稳定。</span>
+              </div>
+            </article>
+            <article>
+              <time>09.13</time>
+              <div>
+                <h3>接入真实知乎数据与 AI 能力</h3>
+                <p>
+                  v7 接入知乎开放平台、DeepSeek/知乎直答双通道、多人实时房间、
+                  原文查询与批注。另一条 v8 支线验证了账户、云端同步、炼金配方和无限白板。
+                </p>
+                <span>结果：从静态 Demo 变成可真实运行的知识服务原型。</span>
+              </div>
+            </article>
+            <article>
+              <time>09.14</time>
+              <div>
+                <h3>重新审视知识的最小单位</h3>
+                <p>
+                  React 重构版把文章进一步拆为知识卡、概念、项目、连接和输出，
+                  并解决本地双击打开、原文入口和自动拆解问题。
+                  当前宇宙版则继续完善登录推荐态、真实收藏态和文章-星球状态同步。
+                </p>
+                <span>结果：产品从“文章管理”走向“个人知识网络”。</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-decisions">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">10 / 关键问题与解法</p>
+            <h2>把开发过程中踩过的坑，沉淀成产品规则</h2>
+          </div>
+          <div class="decision-table" role="table" aria-label="问题与解决方案">
+            <div class="decision-row decision-head" role="row">
+              <span>发现问题</span>
+              <span>背后的思考</span>
+              <span>最终处理</span>
+            </div>
+            <div class="decision-row" role="row">
+              <strong>收藏很多，却没有下一步</strong>
+              <span>缺的不是分类，而是加工动作</span>
+              <span>建立选料、拆解、抬杠、图谱、回流闭环</span>
+            </div>
+            <div class="decision-row" role="row">
+              <strong>功能过多，用户不知道怎么用</strong>
+              <span>入口不能等于能力，必须按意图组织</span>
+              <span>固定操作导引、中心设置与区域小设置</span>
+            </div>
+            <div class="decision-row" role="row">
+              <strong>文章已学会，星球却没有点亮</strong>
+              <span>两个状态描述同一件事，容易漂移</span>
+              <span>使用单一 `learned` 状态，文章和宇宙双向同步</span>
+            </div>
+            <div class="decision-row" role="row">
+              <strong>3D 宇宙好看但方向混乱</strong>
+              <span>沉浸感不能牺牲可理解性</span>
+              <span>正向拖动、先定位后缩放、近距显示文章名</span>
+            </div>
+            <div class="decision-row" role="row">
+              <strong>本地双击网页出现空白</strong>
+              <span>浏览器会阻止 file:// 下的模块与绝对路径资源</span>
+              <span>单文件构建产物 + Hash 路由 + 本地入口跳转</span>
+            </div>
+            <div class="decision-row" role="row">
+              <strong>知乎授权尚未完全开放</strong>
+              <span>不能把未来能力伪装成已经可用</span>
+              <span>未登录展示推荐，授权后切真实收藏，空收藏明确显示为空</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-roadmap" id="roadmap">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">11 / 实施路线</p>
+            <h2>从可演示原型，走向可持续运营的知乎知识服务</h2>
+          </div>
+          <div class="roadmap">
+            <article class="is-complete">
+              <span class="roadmap-status">已完成</span>
+              <h3>阶段一 · 核心体验验证</h3>
+              <p>收藏归类、五步学习、AI 抬杠、图谱、3D 宇宙、原文批注、移动端与离线运行。</p>
+            </article>
+            <article class="is-current">
+              <span class="roadmap-status">当前推进</span>
+              <h3>阶段二 · 真实数据与状态统一</h3>
+              <p>知乎 OpenAPI、用户级 OAuth 收藏链、推荐态与真实收藏态、文章与星球同步、AI 双模型。</p>
+            </article>
+            <article>
+              <span class="roadmap-status">下一步</span>
+              <h3>阶段三 · 账户与深度个性化</h3>
+              <p>云端同步、炼金配方、按主题复习、自定义模型、私有与共建知识星系。</p>
+            </article>
+            <article>
+              <span class="roadmap-status">增长方向</span>
+              <h3>阶段四 · 输出与社区回流</h3>
+              <p>回答草稿、内容素材、多人学习房间、社区主题榜单与知乎发布回流。</p>
+            </article>
+          </div>
+
+          <div class="delivery-status">
+            <div>
+              <span class="status-dot"></span>
+              <strong>前端与 3D</strong>
+              <p>桌面与移动端已验证，无横向溢出与运行异常。</p>
+            </div>
+            <div>
+              <span class="status-dot"></span>
+              <strong>知乎开放平台</strong>
+              <p>搜索、热榜、回答、收藏与原文接口已接入并缓存。</p>
+            </div>
+            <div>
+              <span class="status-dot"></span>
+              <strong>AI 与实时</strong>
+              <p>问答、抬杠、SSE 流式回答和 WebSocket 房间已通过回归。</p>
+            </div>
+            <div>
+              <span class="status-dot"></span>
+              <strong>用户授权</strong>
+              <p>OAuth 与用户收藏读取链路已准备，等待官方正式开放对应 scope。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-evidence">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-index">12 / 真实产品证据</p>
+            <h2>不是概念渲染，已经有可操作的学习与宇宙界面</h2>
+          </div>
+          <div class="gallery">
+            <figure>
+              <img src="./assets/recommendation.png" alt="未登录推荐态界面" />
+              <figcaption>系统推荐态：未授权用户也能体验完整学习路径。</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/universe.png" alt="炼金宇宙暗星与星点背景" />
+              <figcaption>炼金宇宙：文章状态与星球亮度保持同一套逻辑。</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/aurora.png" alt="炼金宇宙极光天气" />
+              <figcaption>环境系统：真实时间、天气与沉浸式 3D 场景联动。</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing">
+        <div class="container closing-inner">
+          <div>
+            <p class="section-index">评审结论</p>
+            <h2>炼知把知乎的“内容优势”，转化为用户真正带得走的能力</h2>
+            <p>
+              对用户，它解决收藏无法消化的问题；对知乎，它激活存量内容、提高留存，
+              并把阅读重新引向创作。产品路径、技术边界和社区价值在同一条闭环上成立。
+            </p>
+          </div>
+          <div class="closing-actions">
+            <a
+              class="button button-light"
+              href="https://github.com/zzz11225566/reknow-universe"
+              target="_blank"
+              rel="noreferrer"
+            >
+              查看主项目
+            </a>
+            <a class="button button-ghost" href="#top">返回顶部</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>炼知 ReKnow · 知乎黑客松 2026「知识炼金场」</span>
+      <span>本页面为产品说明计划书，不代表知乎官方产品。</span>
+    </footer>
+
+    <script>
+      (function () {
+        var nav = document.getElementById("siteNav");
+        var links = Array.prototype.slice.call(
+          document.querySelectorAll(".nav-links a"),
+        );
+        var sections = links
+          .map(function (link) {
+            return document.querySelector(link.getAttribute("href"));
+          })
+          .filter(Boolean);
+
+        function updateNav() {
+          var top = window.scrollY || window.pageYOffset;
+          nav.classList.toggle("is-scrolled", top > 36);
+          var active = null;
+          sections.forEach(function (section) {
+            if (section.getBoundingClientRect().top <= 150) active = section.id;
+          });
+          links.forEach(function (link) {
+            link.classList.toggle(
+              "is-active",
+              active && link.getAttribute("href") === "#" + active,
+            );
+          });
+        }
+
+        window.addEventListener("scroll", updateNav, { passive: true });
+        updateNav();
+      })();
+    </script>
+  </body>
+</html>
